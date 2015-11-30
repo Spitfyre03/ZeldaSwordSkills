@@ -34,7 +34,8 @@ import zeldaswordskills.ref.ModInfo;
  */
 public class ModParticle extends EntityFX {
 	/** This sprite sheet must be strictly 16 by 16 icons, any resolution. */
-	public static final ResourceLocation modParticles = new ResourceLocation(ModInfo.ID, "textures/particles.png");
+	public static final ResourceLocation modParticles = new ResourceLocation(ModInfo.ID, "particles");
+	public static final ResourceLocation modParticlesLocation = new ResourceLocation(ModInfo.ID, "textures/particles.png");
 	public static final ResourceLocation minecraftParticles = new ResourceLocation("textures/particle/particles.png");
 
 	/** Total number of frames in the sequence. */
@@ -63,6 +64,21 @@ public class ModParticle extends EntityFX {
 		this.motionX = velX;
 		this.motionY = velY;
 		this.motionZ = velZ;
+		// TODO really need this to be its own TextureAtlasSprite, not the blocks one
+		// Actually, only a few particles use the particleIcon at all - perhaps not needed
+		// this.particleIcon = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(modParticles.toString());
+	}
+
+	/*
+	// TODO what to return here?
+	@Override
+	public int getFXLayer() {
+		return 1; // 1 uses TextureAtlasSprite (i.e. digging FX); 3 is for 'mod' particles, but can't setParticleTextureIndex...
+	}
+	 */
+	@Override
+	public int getFXLayer() {
+		return 3;
 	}
 
 	@Override
@@ -112,6 +128,12 @@ public class ModParticle extends EntityFX {
 		setParticleTextureIndex(initialIconIndex);
 	}
 
+	@Override
+	public void setParticleTextureIndex(int particleTextureIndex) {
+		this.particleTextureIndexX = particleTextureIndex % 16;
+		this.particleTextureIndexY = particleTextureIndex / 16;
+	}
+
 	protected void setAnimated(boolean value) {
 		this.animated = value;
 	}
@@ -127,13 +149,19 @@ public class ModParticle extends EntityFX {
 
 	@Override
 	public void renderParticle(WorldRenderer renderer, Entity entity, float partialTick, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY) {
-		renderer.finishDrawing();
-		Minecraft.getMinecraft().renderEngine.bindTexture(modParticles);
+		//renderer.finishDrawing();
+		
+		// Error with incorrect location
+		// Minecraft.getMinecraft().renderEngine.bindTexture(modParticles);
+		// No error, but no render:
+		Minecraft.getMinecraft().renderEngine.bindTexture(modParticlesLocation);
+		// No error, but no render:
+		// Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 		renderer.startDrawingQuads();
 		renderer.setBrightness(getBrightnessForRender(partialTick));
 		super.renderParticle(renderer, entity, partialTick, rotX, rotXZ, rotZ, rotYZ, rotXY);
 		renderer.finishDrawing();
-		renderer.startDrawingQuads();
+		//renderer.startDrawingQuads();
 		Minecraft.getMinecraft().renderEngine.bindTexture(minecraftParticles);
 	}
 

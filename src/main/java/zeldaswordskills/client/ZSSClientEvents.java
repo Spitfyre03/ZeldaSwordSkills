@@ -139,6 +139,8 @@ public class ZSSClientEvents
 		for (int i = 0; i < 10; ++i) {
 			event.map.registerSprite(new ResourceLocation(ModInfo.ID, digit + i));
 		}
+		// TODO do mod particle textures need to be stitched? certainly not into the block texture map?
+		// event.map.registerSprite(ModParticle.modParticles);
 	}
 
 	/**

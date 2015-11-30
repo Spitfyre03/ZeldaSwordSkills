@@ -85,6 +85,7 @@ public class ClientProxy extends CommonProxy
 		if (o instanceof Map) {
 			particleFactoryMap = (Map<Integer, IParticleFactory>) o;
 		}
+		// TODO ? register factory for cyclone particle: mc.effectRenderer.registerParticle(particleFactoryMap.size(), particleFactory);
 	}
 
 	@Override

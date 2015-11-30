@@ -17,6 +17,7 @@
 
 package zeldaswordskills.client.particle;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 
 /**
@@ -30,6 +31,8 @@ public class ParticleCyclone extends ModParticle {
 		this.particleMaxAge = 20;
 		this.particleScale = 2;
 		setFade(0, 0.5f);
+		// getFXLayer must return 1 to set the icon like this, but then setTexturePositions crashes
+		// this.setParticleIcon(Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(modParticles.toString()));
 	}
 
 	@Override
