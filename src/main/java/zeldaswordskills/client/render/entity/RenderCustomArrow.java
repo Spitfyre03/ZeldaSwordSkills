@@ -20,6 +20,7 @@ package zeldaswordskills.client.render.entity;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -41,12 +42,12 @@ public class RenderCustomArrow extends RenderArrow
 	}
 
 	@Override
-	public void doRender(Entity entity, double dx, double dy, double dz, float yaw, float partialTick) {
+	public void doRender(EntityArrow entity, double dx, double dy, double dz, float yaw, float partialTick) {
 		super.doRender(entity, dx, dy, dz, yaw, partialTick);
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) {
+	protected ResourceLocation getEntityTexture(EntityArrow entity) {
 		return getArrowTexture((EntityArrowCustom) entity);
 	}
 

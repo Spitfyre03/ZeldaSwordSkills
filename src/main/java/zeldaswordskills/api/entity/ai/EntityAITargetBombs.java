@@ -18,11 +18,11 @@
 package zeldaswordskills.api.entity.ai;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.util.MathHelper;
 import zeldaswordskills.api.entity.IEntityBomb;
 import zeldaswordskills.api.entity.IEntityCustomTarget;
@@ -37,7 +37,7 @@ import zeldaswordskills.util.WorldUtils;
 public class EntityAITargetBombs extends EntityAIDynamicCustomTarget
 {
 	/** Sorts potential targets by range */
-	protected final EntityAINearestAttackableTarget.Sorter sorter;
+	protected final Sorter sorter;
 	protected final float range;
 	protected Entity targetBomb;
 	protected int delay;
@@ -56,7 +56,7 @@ public class EntityAITargetBombs extends EntityAIDynamicCustomTarget
 	 */
 	public <T extends EntityCreature & IEntityDynamic & IEntityCustomTarget> EntityAITargetBombs(T entity, EntityAction action, float range, boolean require_ground, boolean require_sight) {
 		super(entity, action, range, require_ground, require_sight);
-		this.sorter = new EntityAINearestAttackableTarget.Sorter(entity);
+		this.sorter = new Sorter(entity);
 		this.range = range;
 	}
 
@@ -108,7 +108,7 @@ public class EntityAITargetBombs extends EntityAIDynamicCustomTarget
 				return null;
 			}
 			List<IEntityBomb> bombs = WorldUtils.getEntitiesWithinAABB(entity.worldObj, IEntityBomb.class, entity.getEntityBoundingBox().expand(range, range / 2.0F, range));
-			Collections.sort(bombs, sorter);
+			Collections.sort(bombs, sorter); //fixed this compiler error by copying from the old Vanilla MC Sorter class
 			if (!bombs.isEmpty()) {
 				targetBomb = (Entity) bombs.get(0);
 			}
@@ -116,4 +116,26 @@ public class EntityAITargetBombs extends EntityAIDynamicCustomTarget
 		}
 		return targetBomb;
 	}
+        
+        public static class Sorter implements Comparator //copied from EntityAINearestAttackableTarget.Sorter class of MC 1.8.0
+        {
+            private final Entity theEntity;
+
+            public Sorter(Entity theEntityIn)
+            {
+                this.theEntity = theEntityIn;
+            }
+
+            public int compare(Entity p_compare_1_, Entity p_compare_2_)
+            {
+                double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
+                double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
+                return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
+            }
+            
+            public int compare(Object p_compare_1_, Object p_compare_2_)
+            {
+                return this.compare((Entity)p_compare_1_, (Entity)p_compare_2_);
+            }
+        }
 }
