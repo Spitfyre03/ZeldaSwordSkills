@@ -30,10 +30,12 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ISmartItemModel;
 import net.minecraftforge.fml.relauncher.Side;
@@ -77,8 +79,8 @@ public class ModelDynamicItemBlock implements ISmartItemModel {
 	}
 
 	@Override
-	public TextureAtlasSprite getTexture() {
-		return defaultModel.getTexture();
+	public TextureAtlasSprite getParticleTexture() {
+		return defaultModel.getParticleTexture();
 	}
 
 	@Override
@@ -151,8 +153,8 @@ public class ModelDynamicItemBlock implements ISmartItemModel {
 		}
 
 		@Override
-		public TextureAtlasSprite getTexture() {
-			return parent.getTexture();
+		public TextureAtlasSprite getParticleTexture() {
+			return parent.getParticleTexture();
 		}
 
 		@Override
@@ -161,7 +163,7 @@ public class ModelDynamicItemBlock implements ISmartItemModel {
 		}
 
 		@Override
-		public Pair<IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
+		public Pair<? extends IFlexibleBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
 			Matrix4f matrix = null;
 			switch (cameraTransformType) {
 			case FIRST_PERSON:
@@ -185,7 +187,12 @@ public class ModelDynamicItemBlock implements ISmartItemModel {
 			default:
 				break;
 			}
-			return Pair.of(parent, matrix);
+			return Pair.of((IFlexibleBakedModel)parent, matrix);
 		}
+
+        @Override
+        public VertexFormat getFormat() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
 	}
 }

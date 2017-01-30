@@ -40,14 +40,14 @@ public class EntityRendererAlt extends EntityRenderer
 	}
 
 	@Override
-	public void updateCameraAndRender(float partialTick) {
+	public void updateCameraAndRender(float partialTick, long par2) {
 		if (mc.thePlayer == null || mc.thePlayer.isPlayerSleeping()) {
-			super.updateCameraAndRender(partialTick);
+			super.updateCameraAndRender(partialTick, par2);
 			return;
 		}
 		// TODO used to be yOffset; not sure what renderOffsetY will do
 		mc.thePlayer.renderOffsetY -= ySize;
-		super.updateCameraAndRender(partialTick);
+		super.updateCameraAndRender(partialTick, par2);
 		mc.thePlayer.renderOffsetY = 1.62F;
 	}
 

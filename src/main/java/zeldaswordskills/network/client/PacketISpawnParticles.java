@@ -48,7 +48,7 @@ public class PacketISpawnParticles extends AbstractClientMessage<PacketISpawnPar
 	public PacketISpawnParticles() {}
 
 	public PacketISpawnParticles(EntityPlayer player, float radius) {
-		this.commandSenderName = player.getCommandSenderName();
+		this.commandSenderName = player.getName();
 		this.stack = player.getHeldItem();
 		r = radius;
 	}

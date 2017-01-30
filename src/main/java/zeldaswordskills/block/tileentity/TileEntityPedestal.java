@@ -224,4 +224,9 @@ public class TileEntityPedestal extends TileEntityInventory
 			compound.setBoolean("hasSword", false);
 		}
 	}
+
+    @Override
+    public ItemStack removeStackFromSlot(int index) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

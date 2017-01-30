@@ -50,7 +50,7 @@ public class InventoryMaskTrader extends AbstractInventory
 	}
 
 	@Override
-	public String getCommandSenderName() {
+	public String getName() {
 		return "gui.mask_trader.name";
 	}
 
@@ -78,4 +78,9 @@ public class InventoryMaskTrader extends AbstractInventory
 	protected String getNbtKey() {
 		return null; // doesn't need to save
 	}
+
+    @Override
+    public ItemStack removeStackFromSlot(int index) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

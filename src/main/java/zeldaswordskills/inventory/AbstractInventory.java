@@ -63,12 +63,13 @@ public abstract class AbstractInventory implements IInventory
 		return stack;
 	}
 
+        /* Does not seem to exist anymore
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack getStackInSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		setInventorySlotContents(slot, null);
 		return stack;
-	}
+	}*/
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
@@ -112,7 +113,7 @@ public abstract class AbstractInventory implements IInventory
 	 * Return unlocalized name here, or pre-translated and return true for hasCustomName()
 	 */
 	@Override
-	public String getCommandSenderName() {
+	public String getName() {
 		return "";
 	}
 
@@ -123,7 +124,7 @@ public abstract class AbstractInventory implements IInventory
 
 	@Override
 	public IChatComponent getDisplayName() {
-		return (IChatComponent)(hasCustomName() ? new ChatComponentText(getCommandSenderName()) : new ChatComponentTranslation(getCommandSenderName()));
+		return (IChatComponent)(hasCustomName() ? new ChatComponentText(getName()) : new ChatComponentTranslation(getName()));
 	}
 
 	/**

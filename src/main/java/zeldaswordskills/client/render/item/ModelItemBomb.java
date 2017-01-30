@@ -26,11 +26,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ISmartItemModel;
 import net.minecraftforge.fml.relauncher.Side;
@@ -73,11 +75,11 @@ public class ModelItemBomb implements ISmartItemModel, IPerspectiveAwareModel
 	}
 
 	@Override
-	public Pair<IBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
+	public Pair<? extends IFlexibleBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
 		// gui renders as 2D sprite; this is apparently also what renders when the item is dropped
 		if (cameraTransformType == ItemCameraTransforms.TransformType.GUI) {
 			RenderItem.applyVanillaTransform(baseModel.getItemCameraTransforms().gui);
-			return Pair.of(baseModel, null);
+			return Pair.of( (IFlexibleBakedModel)baseModel, null);
 		}
 		GlStateManager.pushMatrix();
 		switch (cameraTransformType) {
@@ -105,7 +107,7 @@ public class ModelItemBomb implements ISmartItemModel, IPerspectiveAwareModel
 		bombModel.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0475F);
 		GlStateManager.popMatrix();
 		// return empty model to render nothing - bomb model already rendered
-		return Pair.of(emptyModel, null);
+		return Pair.of( (IFlexibleBakedModel)emptyModel, null);
 	}
 
 	@Override
@@ -134,8 +136,8 @@ public class ModelItemBomb implements ISmartItemModel, IPerspectiveAwareModel
 	}
 
 	@Override
-	public TextureAtlasSprite getTexture() {
-		return baseModel.getTexture();
+	public TextureAtlasSprite getParticleTexture() {
+		return baseModel.getParticleTexture();
 	}
 
 	@Override
@@ -147,4 +149,9 @@ public class ModelItemBomb implements ISmartItemModel, IPerspectiveAwareModel
 		int i = type.ordinal();
 		return (isFlashing) ? RenderEntityBomb.flashTextures[i] : RenderEntityBomb.bombTextures[i];
 	}
+
+    @Override
+    public VertexFormat getFormat() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

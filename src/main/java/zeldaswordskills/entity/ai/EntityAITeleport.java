@@ -392,7 +392,7 @@ public class EntityAITeleport extends EntityAIBase
 	 */
 	public static void disruptTargeting(EntityLivingBase entity) {
 		if (entity.worldObj instanceof WorldServer) {
-			Set<EntityPlayer> players = ((WorldServer) entity.worldObj).getEntityTracker().getTrackingPlayers(entity);
+			Set<EntityPlayer> players = (Set<EntityPlayer>) ((WorldServer) entity.worldObj).getEntityTracker().getTrackingPlayers(entity);
 			for (EntityPlayer player : players) {
 				ZSSPlayerSkills skills = ZSSPlayerSkills.get(player);
 				if (skills.getTargetingSkill() != null && skills.getTargetingSkill().getCurrentTarget() == entity) {

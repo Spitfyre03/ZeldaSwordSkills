@@ -119,8 +119,11 @@ public abstract class EntityDekuBase extends EntityCreature implements IMob, IEn
 	}
 
 	@Override
-	public boolean handleLavaMovement() {
-		return false; // can't be pushed by lava
+	public boolean isPushedByWater() {
+                if (this.isInLava()) {
+                        return false; // can't be pushed by lava
+                }
+                return true;
 	}
 
 	@Override
@@ -178,9 +181,9 @@ public abstract class EntityDekuBase extends EntityCreature implements IMob, IEn
 				entity.setFire(j * 4);
 			}
 			if (entity instanceof EntityLivingBase) {
-				EnchantmentHelper.func_151384_a((EntityLivingBase)entity, this);
+				EnchantmentHelper.applyThornEnchantments((EntityLivingBase)entity, this);
 			}
-			EnchantmentHelper.func_151385_b(this, entity);
+			EnchantmentHelper.applyArthropodEnchantments(this, entity);
 		}
 		return flag;
 	}
@@ -243,11 +246,11 @@ public abstract class EntityDekuBase extends EntityCreature implements IMob, IEn
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void handleHealthUpdate(byte flag) {
+	public void handleStatusUpdate(byte flag) {
 		if (flag == CUSTOM_DEATH) {
 			custom_death = (this.rand.nextInt(2) == 0 ? -1 : 1);
 		} else {
-			super.handleHealthUpdate(flag);
+			super.handleStatusUpdate(flag);
 		}
 	}
 

@@ -256,7 +256,7 @@ public class ItemHeldBlock extends BaseModItem implements IDynamicItemBlock, IHa
 		}
 		Block block = world.getBlockState(pos).getBlock();
 		if (block == state.getBlock()) {
-			ItemBlock.setTileEntityNBT(world, pos, stack, player);
+			ItemBlock.setTileEntityNBT(world, player, pos, stack);
 			block.onBlockPlacedBy(world, pos, state, player, stack);
 			if (block instanceof ILiftable) {
 				((ILiftable) block).onHeldBlockPlaced(world, stack, pos, state);

@@ -128,7 +128,7 @@ public abstract class EntityNpcMerchantBase extends EntityNpcBase implements IMe
 		if (recipe.getToolUses() == 1 || rand.nextInt(5) == 0) {
 			refreshTimer = 40;
 			refreshTrades = true;
-			lastCustomer = (customer == null ? null : customer.getCommandSenderName());
+			lastCustomer = (customer == null ? null : customer.getName());
 			xp += 5;
 		}
 		if (recipe.getRewardsExp()) {

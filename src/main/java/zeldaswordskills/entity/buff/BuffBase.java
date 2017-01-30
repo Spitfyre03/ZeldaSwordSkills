@@ -17,7 +17,9 @@
 
 package zeldaswordskills.entity.buff;
 
+import java.util.Set;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldServer;
@@ -115,7 +117,7 @@ public class BuffBase
 			if (entity instanceof EntityPlayerMP) {
 				PacketDispatcher.sendTo(new UpdateBuffPacket(this, false), (EntityPlayerMP) entity);
 			} else if (buff.syncNonPlayerEntity && entity.worldObj instanceof WorldServer) {
-				PacketDispatcher.sendToPlayers(new UpdateBuffPacket(this, entity, false), ((WorldServer) entity.worldObj).getEntityTracker().getTrackingPlayers(entity));
+				PacketDispatcher.sendToPlayers(new UpdateBuffPacket(this, entity, false), (Set<EntityPlayer>) ((WorldServer) entity.worldObj).getEntityTracker().getTrackingPlayers(entity));
 			}
 		}
 	}
@@ -138,7 +140,7 @@ public class BuffBase
 				if (entity instanceof EntityPlayerMP) {
 					PacketDispatcher.sendTo(new UpdateBuffPacket(this, true), (EntityPlayerMP) entity);
 				} else if (buff.syncNonPlayerEntity && entity.worldObj instanceof WorldServer) {
-					PacketDispatcher.sendToPlayers(new UpdateBuffPacket(this, entity, true), ((WorldServer) entity.worldObj).getEntityTracker().getTrackingPlayers(entity));
+					PacketDispatcher.sendToPlayers(new UpdateBuffPacket(this, entity, true), (Set<EntityPlayer>) ((WorldServer) entity.worldObj).getEntityTracker().getTrackingPlayers(entity));
 				}
 			}
 		}

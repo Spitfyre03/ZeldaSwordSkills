@@ -569,7 +569,7 @@ IAllowItem, ISheathed, ISpecialBow
 				GlStateManager.scale(0.625F, 0.625F, 0.625F);
 			}
 			GlStateManager.translate(-(-3F+i)/16F, -(-3F+i)/16F, 0.5F/16F);
-			mc.getRenderItem().renderItemModel(arrowStack);
+			mc.getRenderItem().shouldRenderItemIn3D(arrowStack);
 			GlStateManager.popMatrix();
 		}
 		return models.get(i);

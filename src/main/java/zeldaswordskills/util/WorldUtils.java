@@ -132,7 +132,7 @@ public class WorldUtils
 		if (!(tileEntity instanceof IInventory)) { return; }
 		IInventory inv = (IInventory) tileEntity;
 		for (int i = 0; i < inv.getSizeInventory(); ++i) {
-			spawnItemWithRandom(world, inv.getStackInSlotOnClosing(i), pos.getX(), pos.getY(), pos.getZ());
+			spawnItemWithRandom(world, inv.getStackInSlot(i), pos.getX(), pos.getY(), pos.getZ());
 		}
 	}
 
@@ -216,7 +216,7 @@ public class WorldUtils
 	public static void generateRandomChestContents(Random rand, List<WeightedRandomChestContent> weightedContents, IInventory chest, int numItems, boolean atRandom) {
 		for (int i = 0; i < numItems; ++i) {
 			WeightedRandomChestContent weightedChest = (WeightedRandomChestContent) WeightedRandom.getRandomItem(rand, weightedContents);
-			ItemStack[] stacks = ChestGenHooks.generateStacks(rand, weightedChest.theItemId, weightedChest.theMinimumChanceToGenerateItem, weightedChest.theMaximumChanceToGenerateItem);
+			ItemStack[] stacks = ChestGenHooks.generateStacks(rand, weightedChest.theItemId, weightedChest.minStackSize, weightedChest.maxStackSize);
 			for (ItemStack item : stacks) {
 				if (atRandom) {
 					chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()), item);

@@ -180,11 +180,11 @@ public class EntityDekuFire extends EntityDekuBaba implements IEntityAdditionalS
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void handleHealthUpdate(byte flag) {
+	public void handleStatusUpdate(byte flag) {
 		if (flag == GLAND_FLAG) {
 			gland_timer = (rand.nextFloat() < 0.5F ? GLAND_DURATION : -GLAND_DURATION);
 		} else {
-			super.handleHealthUpdate(flag);
+			super.handleStatusUpdate(flag);
 		}
 	}
 

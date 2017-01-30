@@ -64,8 +64,8 @@ public class ModelDungeonBlock implements ISmartBlockModel
 	}
 
 	@Override
-	public TextureAtlasSprite getTexture() {
-		return defaultModel.getTexture(); // needed for particles
+	public TextureAtlasSprite getParticleTexture() {
+		return defaultModel.getParticleTexture(); // needed for particles
 	}
 
 	@Override

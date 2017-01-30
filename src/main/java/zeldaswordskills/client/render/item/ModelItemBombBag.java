@@ -41,6 +41,8 @@ import zeldaswordskills.item.ItemBombBag;
 import zeldaswordskills.ref.ModInfo;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraftforge.client.model.IFlexibleBakedModel;
 
 @SuppressWarnings("deprecation")
 @SideOnly(Side.CLIENT)
@@ -62,24 +64,24 @@ public class ModelItemBombBag implements ISmartItemModel, IPerspectiveAwareModel
 	}
 
 	@Override
-	public Pair<IBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
+	public Pair<? extends IFlexibleBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
 		switch (cameraTransformType) {
 		case FIRST_PERSON:
-			RenderItem.applyVanillaTransform(baseModel.getItemCameraTransforms().firstPerson);
-			return Pair.of(baseModel, null);
+			RenderItem.applyVanillaTransform( baseModel.getItemCameraTransforms().firstPerson);
+			return Pair.of( (IFlexibleBakedModel)baseModel, null);
 		case GUI:
 			RenderItem.applyVanillaTransform(baseModel.getItemCameraTransforms().gui);
-			return Pair.of((IBakedModel)(new ModelItemBombBagGui(baseModel, bombsHeld)), null);
+			return Pair.of((IFlexibleBakedModel)(new ModelItemBombBagGui(baseModel, bombsHeld)), null);
 		case HEAD:
 			RenderItem.applyVanillaTransform(baseModel.getItemCameraTransforms().head);
-			return Pair.of(baseModel, null);
+			return Pair.of( (IFlexibleBakedModel)baseModel, null);
 		case THIRD_PERSON:
 			RenderItem.applyVanillaTransform(baseModel.getItemCameraTransforms().thirdPerson);
-			return Pair.of(baseModel, null);
+			return Pair.of( (IFlexibleBakedModel)baseModel, null);
 		default:
 			break;
 		}
-		return Pair.of(baseModel, null);
+		return Pair.of( (IFlexibleBakedModel) baseModel, null);
 	}
 
 	@Override
@@ -108,14 +110,19 @@ public class ModelItemBombBag implements ISmartItemModel, IPerspectiveAwareModel
 	}
 
 	@Override
-	public TextureAtlasSprite getTexture() {
-		return baseModel.getTexture();
+	public TextureAtlasSprite getParticleTexture() {
+		return baseModel.getParticleTexture();
 	}
 
 	@Override
 	public ItemCameraTransforms getItemCameraTransforms() {
 		return baseModel.getItemCameraTransforms();
 	}
+
+    @Override
+    public VertexFormat getFormat() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 	/**
 	 * Model specifically for the GUI view; renders number of bombs held overlaid as digits
@@ -163,8 +170,8 @@ public class ModelItemBombBag implements ISmartItemModel, IPerspectiveAwareModel
 		}
 
 		@Override
-		public TextureAtlasSprite getTexture() {
-			return baseModel.getTexture();
+		public TextureAtlasSprite getParticleTexture() {
+			return baseModel.getParticleTexture();
 		}
 
 		@Override

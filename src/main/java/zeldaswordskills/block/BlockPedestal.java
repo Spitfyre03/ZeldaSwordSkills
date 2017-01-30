@@ -202,7 +202,7 @@ public class BlockPedestal extends Block implements IBlockItemVariant, ICustomSt
 	}
 
 	@Override
-	public int isProvidingWeakPower(IBlockAccess world, BlockPos pos, IBlockState state, EnumFacing face) {
+	public int getWeakPower(IBlockAccess world, BlockPos pos, IBlockState state, EnumFacing face) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TileEntityPedestal) {
 			return ((TileEntityPedestal) te).getPowerLevel();

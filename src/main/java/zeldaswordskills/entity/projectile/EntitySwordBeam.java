@@ -178,7 +178,7 @@ public class EntitySwordBeam extends EntityThrowable implements IEntityAdditiona
 	public void writeSpawnData(ByteBuf buffer) {
 		String throwerName = "";
 		if (getThrower() != null) {
-			throwerName = getThrower().getCommandSenderName();
+			throwerName = getThrower().getName();
 		}
 		ByteBufUtils.writeUTF8String(buffer, throwerName);
 	}

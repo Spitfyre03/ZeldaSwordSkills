@@ -98,7 +98,7 @@ public class FairySpawner
 			itemUpdate = 2;
 		}
 		if (playerName.equals("")) {
-			playerName = player.getCommandSenderName();
+			playerName = player.getName();
 		}
 	}
 

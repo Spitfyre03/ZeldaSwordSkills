@@ -491,9 +491,9 @@ public class EntityDarknut extends EntityMob implements IEntityBackslice, IEntit
 				entity.setFire(j * 4);
 			}
 			if (entity instanceof EntityLivingBase) {
-				EnchantmentHelper.func_151384_a((EntityLivingBase) entity, this);
+				EnchantmentHelper.applyThornEnchantments((EntityLivingBase) entity, this); //thorns?
 			}
-			EnchantmentHelper.func_151385_b(this, entity);
+			EnchantmentHelper.applyArthropodEnchantments(this, entity); //arthropods?
 			return true;
 		}
 		return false;
@@ -644,7 +644,7 @@ public class EntityDarknut extends EntityMob implements IEntityBackslice, IEntit
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void handleHealthUpdate(byte flag) {
+	public void handleStatusUpdate(byte flag) {
 		switch(flag) {
 		case ATTACK_FLAG:
 			isPowerAttack = false;
@@ -669,7 +669,7 @@ public class EntityDarknut extends EntityMob implements IEntityBackslice, IEntit
 			spinAttackTimer = 12;
 			break;
 		default:
-			super.handleHealthUpdate(flag);
+			super.handleStatusUpdate(flag);
 		}
 	}
 

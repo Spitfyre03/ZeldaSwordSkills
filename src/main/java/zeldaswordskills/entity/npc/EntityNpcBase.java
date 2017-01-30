@@ -17,7 +17,6 @@
 
 package zeldaswordskills.entity.npc;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -33,7 +32,6 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.BlockPos;
@@ -46,7 +44,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import zeldaswordskills.ref.Config;
 
-import com.google.common.base.Predicate;
+import net.minecraft.entity.monster.EntityMob;
 
 /**
  * 
@@ -70,11 +68,7 @@ public abstract class EntityNpcBase extends EntityCreature implements INpc
 		((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
 		((PathNavigateGround) this.getNavigator()).setAvoidsWater(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIAvoidEntity(this, new Predicate<Entity>() {
-			public boolean apply(Entity entity) {
-				return entity instanceof IMob;
-			}
-		}, 8.0F, 0.6D, 0.6D));
+		this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityMob.class, 8.0F, 0.6D, 0.6D));
 		this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
@@ -146,7 +140,7 @@ public abstract class EntityNpcBase extends EntityCreature implements INpc
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void handleHealthUpdate(byte flag) {
+	public void handleStatusUpdate(byte flag) {
 		switch(flag) {
 		case 12:
 			generateRandomParticles(EnumParticleTypes.HEART);
@@ -158,7 +152,7 @@ public abstract class EntityNpcBase extends EntityCreature implements INpc
 			generateRandomParticles(EnumParticleTypes.VILLAGER_HAPPY);
 			break;
 		default:
-			super.handleHealthUpdate(flag);
+			super.handleStatusUpdate(flag);
 		}
 	}
 
@@ -182,7 +176,7 @@ public abstract class EntityNpcBase extends EntityCreature implements INpc
 			villageObj.addOrRenewAgressor(entity);
 			if (entity instanceof EntityPlayer) {
 				int rep = (isChild() ? -3 : -1);
-				villageObj.setReputationForPlayer(entity.getCommandSenderName(), rep);
+				villageObj.setReputationForPlayer(entity.getName(), rep);
 				if (isEntityAlive()) {
 					worldObj.setEntityState(this, (byte) 13);
 				}

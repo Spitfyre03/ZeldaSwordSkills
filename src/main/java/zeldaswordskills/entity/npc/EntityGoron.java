@@ -19,6 +19,7 @@ package zeldaswordskills.entity.npc;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -37,7 +38,6 @@ import net.minecraft.entity.ai.EntityAIVillagerMate;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -105,7 +105,7 @@ public class EntityGoron extends EntityVillager implements IVillageDefender, ISo
 		tasks.addTask(1, new EntityAITradePlayer(this));
 		tasks.addTask(1, new EntityAILookAtTradePlayer(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
-		tasks.addTask(2, new EntityAIAttackOnCollide(this, IMob.class, 1.0D, false));
+		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityMob.class, 1.0D, false));
 		tasks.addTask(3, new EntityAIMoveTowardsTarget(this, getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue(), 16.0F));
 		tasks.addTask(4, new EntityAIMoveThroughVillage(this, 0.6D, true));
 		//tasks.addTask(2, new EntityAIMoveIndoors(this));
@@ -256,12 +256,12 @@ public class EntityGoron extends EntityVillager implements IVillageDefender, ISo
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void handleHealthUpdate(byte flag) {
+	public void handleStatusUpdate(byte flag) {
 		if (flag == ATTACK_FLAG) {
 			// matches golem's value for rendering; not the same as value on server
 			attackTimer = 10;
 		} else {
-			super.handleHealthUpdate(flag);
+			super.handleStatusUpdate(flag);
 		}
 	}
 
@@ -298,9 +298,9 @@ public class EntityGoron extends EntityVillager implements IVillageDefender, ISo
 			}
 
 			if (entity instanceof EntityLivingBase) {
-				EnchantmentHelper.func_151384_a((EntityLivingBase) entity, this);
+				EnchantmentHelper.applyThornEnchantments((EntityLivingBase) entity, this);
 			}
-			EnchantmentHelper.func_151385_b(this, entity);
+			EnchantmentHelper.applyArthropodEnchantments(this, entity);
 		}
 
 		return flag;
@@ -313,7 +313,7 @@ public class EntityGoron extends EntityVillager implements IVillageDefender, ISo
 
 	@Override
 	protected void collideWithEntity(Entity entity) {
-		if (entity instanceof IMob && canAttackClass(entity.getClass()) && getRNG().nextInt(20) == 0) {
+		if (entity instanceof EntityMob && canAttackClass((Class<? extends EntityLivingBase>) entity.getClass()) && getRNG().nextInt(20) == 0) {
 			setAttackTarget((EntityLivingBase) entity);
 		}
 		super.collideWithEntity(entity);

@@ -78,10 +78,10 @@ public class CommandGrantSkill extends CommandBase
 			if (flag) {
 				PlayerUtils.sendTranslatedChat(player, "commands.grantskill.notify.all");
 				if (commandSender != player) {
-					PlayerUtils.sendTranslatedChat(commandSender, "commands.grantskill.success.all", player.getCommandSenderName());
+					PlayerUtils.sendTranslatedChat(commandSender, "commands.grantskill.success.all", player.getName());
 				}
 			} else {
-				PlayerUtils.sendTranslatedChat(commandSender, "commands.grantskill.success.partial", player.getCommandSenderName());
+				PlayerUtils.sendTranslatedChat(commandSender, "commands.grantskill.success.partial", player.getName());
 			}
 		} else if (args.length == 3) {
 			SkillBase skill = SkillBase.getSkillByName(args[1]);
@@ -99,13 +99,13 @@ public class CommandGrantSkill extends CommandBase
 				if (skills.grantSkill(skill.getId(), (byte) level)) {
 					PlayerUtils.sendTranslatedChat(player, "commands.grantskill.notify.one", new ChatComponentTranslation(skill.getTranslationString()), skills.getSkillLevel(skill));
 					if (commandSender != player) {
-						PlayerUtils.sendTranslatedChat(commandSender, "commands.grantskill.success.one", player.getCommandSenderName(), new ChatComponentTranslation(skill.getTranslationString()), skills.getSkillLevel(skill));
+						PlayerUtils.sendTranslatedChat(commandSender, "commands.grantskill.success.one", player.getName(), new ChatComponentTranslation(skill.getTranslationString()), skills.getSkillLevel(skill));
 					}
 				} else {
-					throw new CommandException("commands.grantskill.failure.player", player.getCommandSenderName(), new ChatComponentTranslation(skill.getTranslationString()));
+					throw new CommandException("commands.grantskill.failure.player", player.getName(), new ChatComponentTranslation(skill.getTranslationString()));
 				}
 			} else {
-				throw new CommandException("commands.grantskill.failure.low", player.getCommandSenderName(), new ChatComponentTranslation(skill.getTranslationString()), oldLevel);
+				throw new CommandException("commands.grantskill.failure.low", player.getName(), new ChatComponentTranslation(skill.getTranslationString()), oldLevel);
 			}
 		} else {
 			throw new WrongUsageException(getCommandUsage(sender));

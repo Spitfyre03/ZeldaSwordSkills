@@ -104,4 +104,14 @@ public class TileEntityCeramicJar extends TileEntityInventory implements IUpdate
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
+
+    @Override
+    public ItemStack removeStackFromSlot(int index) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getName() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

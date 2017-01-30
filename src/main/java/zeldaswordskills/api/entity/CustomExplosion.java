@@ -442,7 +442,7 @@ public class CustomExplosion extends Explosion
 
 	/** Returns map of affected players */
 	@Override
-	public Map func_77277_b() { return affectedPlayers; }
+	public Map getPlayerKnockbackMap() { return affectedPlayers; }
 
 	protected void notifyClients() {
 		if (!worldObj.isRemote) {
@@ -450,7 +450,7 @@ public class CustomExplosion extends Explosion
 			while (iterator.hasNext()) {
 				EntityPlayer player = iterator.next();
 				if (player.getDistanceSq(explosionX, explosionY, explosionZ) < 4096.0D) {
-					((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new S27PacketExplosion(explosionX, explosionY, explosionZ, explosionSize, affectedBlockPositions, (Vec3) this.func_77277_b().get(player)));
+					((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new S27PacketExplosion(explosionX, explosionY, explosionZ, explosionSize, affectedBlockPositions, (Vec3) this.getPlayerKnockbackMap().get(player)));
 				}
 			}
 		}

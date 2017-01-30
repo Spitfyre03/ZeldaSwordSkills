@@ -151,7 +151,7 @@ public class EntityWhip extends EntityThrowable
 	}
 
 	public void setThrower(EntityPlayer player) {
-		dataWatcher.updateObject(THROWER_INDEX, player != null ? player.getCommandSenderName() : "");
+		dataWatcher.updateObject(THROWER_INDEX, player != null ? player.getName() : "");
 	}
 
 	@Override

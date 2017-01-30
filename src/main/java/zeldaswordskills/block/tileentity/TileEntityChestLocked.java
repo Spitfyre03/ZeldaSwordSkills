@@ -45,4 +45,14 @@ public class TileEntityChestLocked extends TileEntityInventory
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		return true;
 	}
+
+    @Override
+    public ItemStack removeStackFromSlot(int index) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getName() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

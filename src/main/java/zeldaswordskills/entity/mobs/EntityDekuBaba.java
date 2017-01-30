@@ -584,11 +584,11 @@ public class EntityDekuBaba extends EntityDekuBase implements IEntityBombEater, 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void handleHealthUpdate(byte flag) {
+	public void handleStatusUpdate(byte flag) {
 		if (flag == BOMB_INGESTED) {
 			status_timer = FUSE_TIME;
 		} else if (!setActionState(flag)) {
-			super.handleHealthUpdate(flag);
+			super.handleStatusUpdate(flag);
 		}
 	}
 

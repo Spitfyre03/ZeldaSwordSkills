@@ -18,6 +18,7 @@
 package zeldaswordskills.songs;
 
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
@@ -80,7 +81,7 @@ public class ZeldaSongEpona extends AbstractZeldaSong {
 				epona.setPosition(player.posX + (vec3.xCoord * 2.0D), player.posY + 1, player.posZ + (vec3.zCoord * 2.0D));
 				S18PacketEntityTeleport packet = new S18PacketEntityTeleport(epona);
 				PacketDispatcher.sendTo(packet, player); // send to ocarina player first, maybe it will be faster 
-				PacketDispatcher.sendToPlayersExcept(packet, player, ((WorldServer) player.worldObj).getEntityTracker().getTrackingPlayers(epona));
+				PacketDispatcher.sendToPlayersExcept(packet, player, (Set<EntityPlayer>) ((WorldServer) player.worldObj).getEntityTracker().getTrackingPlayers(epona));
 				epona.makeHorseRearWithSound();
 				ZSSPlayerSongs.get(player).setHorseRidden(epona); // sets last chunk coordinates in case player doesn't mount
 			}

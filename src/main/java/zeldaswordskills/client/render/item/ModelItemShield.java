@@ -48,7 +48,7 @@ public class ModelItemShield implements ISmartItemModel
 
 	public ModelItemShield(IBakedModel shieldFront) {
 		this.shieldFront = shieldFront;
-		String resourceLocation = shieldFront.getTexture().getIconName().replaceAll("items/", "").replaceAll("#inventory", "").replaceAll("_using", "") + "_back";
+		String resourceLocation = shieldFront.getParticleTexture().getIconName().replaceAll("items/", "").replaceAll("#inventory", "").replaceAll("_using", "") + "_back";
 		IBakedModel shieldBack = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getModelManager().getModel(new ModelResourceLocation(resourceLocation, "inventory"));
 		this.quads = Lists.newArrayList(shieldFront.getGeneralQuads());
 		for (BakedQuad quad : (List<BakedQuad>) shieldBack.getGeneralQuads()) {
@@ -80,8 +80,8 @@ public class ModelItemShield implements ISmartItemModel
 	}
 
 	@Override
-	public TextureAtlasSprite getTexture() {
-		return shieldFront.getTexture();
+	public TextureAtlasSprite getParticleTexture() {
+		return shieldFront.getParticleTexture();
 	}
 
 	@Override

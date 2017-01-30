@@ -67,12 +67,13 @@ public abstract class TileEntityInventory extends TileEntityBase implements ISid
 		return stack;
 	}
 
+        /* Does not exist anymore?
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		setInventorySlotContents(slot, null);
 		return stack;
-	}
+	}*/
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
@@ -138,7 +139,7 @@ public abstract class TileEntityInventory extends TileEntityBase implements ISid
 	}
 
 	@Override
-	public String getCommandSenderName() {
+	public String getName() {
 		return "";
 	}
 
@@ -149,7 +150,7 @@ public abstract class TileEntityInventory extends TileEntityBase implements ISid
 
 	@Override
 	public IChatComponent getDisplayName() {
-		return (IChatComponent)(hasCustomName() ? new ChatComponentText(getCommandSenderName()) : new ChatComponentTranslation(getCommandSenderName()));
+		return (IChatComponent)(hasCustomName() ? new ChatComponentText(getName()) : new ChatComponentTranslation(getName()));
 	}
 
 	@Override

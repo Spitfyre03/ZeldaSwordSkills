@@ -496,9 +496,9 @@ public class EntityArrowCustom extends EntityArrow implements IEntityAdditionalS
 			}
 		}
 		if (shootingEntity instanceof EntityLivingBase) {
-			// func_151384_a and func_151385_b is the new way Thorns is handled - copied from EntityArrow
-			EnchantmentHelper.func_151384_a((EntityLivingBase) entityHit, shootingEntity);
-			EnchantmentHelper.func_151385_b((EntityLivingBase) shootingEntity, entityHit);
+			// applyThornEnchantments and applyArthropodEnchantments is the new way Thorns is handled - copied from EntityArrow
+			EnchantmentHelper.applyThornEnchantments((EntityLivingBase) entityHit, shootingEntity);
+			EnchantmentHelper.applyArthropodEnchantments((EntityLivingBase) shootingEntity, entityHit);
 		}
 	}
 
@@ -518,7 +518,7 @@ public class EntityArrowCustom extends EntityArrow implements IEntityAdditionalS
 		compound.setDouble("damage", getDamage());
 		compound.setInteger("arrowId", Item.getIdFromItem(arrowItem));
 		if ((shooterName == null || shooterName.length() == 0) && shootingEntity instanceof EntityPlayer) {
-			shooterName = shootingEntity.getCommandSenderName();
+			shooterName = shootingEntity.getName();
 		}
 		compound.setString("shooter", shooterName == null ? "" : shooterName);
 		compound.setInteger("target", getTarget() == null ? -1 : getTarget().getEntityId());
