@@ -534,7 +534,7 @@ public class EntityChu extends EntitySlime implements IEntityBombEater, IEntityL
 				}
 			}
 			if (ticksExisted % 20 == 0) {
-				getCombatTracker().func_94549_h(); //reset()?
+				getCombatTracker().reset();
 			}
 		}
 		this.onLivingUpdate();

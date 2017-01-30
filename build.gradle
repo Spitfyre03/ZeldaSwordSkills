@@ -13,11 +13,11 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "3.2"
+version = "3.2-RobinQnD0"
 group = "com.google.coolalias.zeldaswordskills"
 archivesBaseName = "1.8.9-zeldaswordskills"
 
-sourceCompatibility = targetCompatibility = "1.7"
+sourceCompatibility = targetCompatibility = "1.8"
 
 dependencies {
 	compile files (
