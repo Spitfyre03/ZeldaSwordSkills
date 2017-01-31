@@ -20,10 +20,12 @@ package zeldaswordskills.client.particle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
 import zeldaswordskills.ref.ModInfo;
 
 /**
@@ -129,11 +131,11 @@ public class ModParticle extends EntityFX {
 	public void renderParticle(WorldRenderer renderer, Entity entity, float partialTick, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY) {
 		renderer.finishDrawing();
 		Minecraft.getMinecraft().renderEngine.bindTexture(modParticles);
-		renderer.startDrawingQuads();
+		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		renderer.setBrightness(getBrightnessForRender(partialTick));
 		super.renderParticle(renderer, entity, partialTick, rotX, rotXZ, rotZ, rotYZ, rotXY);
 		renderer.finishDrawing();
-		renderer.startDrawingQuads();
+		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		Minecraft.getMinecraft().renderEngine.bindTexture(minecraftParticles);
 	}
 

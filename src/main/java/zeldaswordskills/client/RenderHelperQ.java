@@ -30,6 +30,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.primitives.Ints;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
 /**
  *
@@ -47,11 +48,11 @@ public class RenderHelperQ {
 		double maxV = (double)(v + height) / (double)imageHeight;
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer renderer = tessellator.getWorldRenderer();
-		renderer.startDrawingQuads();
-		renderer.addVertexWithUV(x + scale*(double)width, y + scale*(double)height, 0, maxU, maxV);
-		renderer.addVertexWithUV(x + scale*(double)width, y, 0, maxU, minV);
-		renderer.addVertexWithUV(x, y, 0, minU, minV);
-		renderer.addVertexWithUV(x, y + scale*(double)height, 0, minU, maxV);
+		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		renderer.pos(x + scale*(double)width, y + scale*(double)height, 0).tex(maxU, maxV);
+		renderer.pos(x + scale*(double)width, y, 0).tex(maxU, minV);
+		renderer.pos(x, y, 0).tex(minU, minV);
+		renderer.pos(x, y + scale*(double)height, 0).tex(minU, maxV);
 		tessellator.draw();
 	}
 
@@ -77,11 +78,11 @@ public class RenderHelperQ {
 		double maxV = (double)(v + height) / (double)imageHeight;
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer renderer = tessellator.getWorldRenderer();
-		renderer.startDrawingQuads();
-		renderer.addVertexWithUV(x + scale*(double)width, y + scale*(double)height, 0, maxU, maxV);
-		renderer.addVertexWithUV(x + scale*(double)width, y, 0, maxU, minV);
-		renderer.addVertexWithUV(x, y, 0, minU, minV);
-		renderer.addVertexWithUV(x, y + scale*(double)height, 0, minU, maxV);
+		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		renderer.pos(x + scale*(double)width, y + scale*(double)height, 0).tex(maxU, maxV);
+		renderer.pos(x + scale*(double)width, y, 0).tex(maxU, minV);
+		renderer.pos(x, y, 0).tex(minU, minV);
+		renderer.pos(x, y + scale*(double)height, 0).tex(minU, maxV);
 		tessellator.draw();
 	}
 

@@ -24,9 +24,11 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 import zeldaswordskills.entity.player.ZSSPlayerSkills;
 import zeldaswordskills.network.PacketDispatcher;
 import zeldaswordskills.network.server.EndComboPacket;
@@ -170,11 +172,11 @@ public class ComboOverlay extends Gui implements IGuiOverlay
 	public static void drawTexturedQuadFit(double x, double y, double width, double height, double zLevel){
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer renderer = tessellator.getWorldRenderer();
-		renderer.startDrawingQuads();
-		renderer.addVertexWithUV(x + 0, y + height, zLevel, 0,1);
-		renderer.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
-		renderer.addVertexWithUV(x + width, y + 0, zLevel, 1,0);
-		renderer.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
+		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		renderer.pos(x + 0, y + height, zLevel).tex(0,1);
+		renderer.pos(x + width, y + height, zLevel).tex(1, 1);
+		renderer.pos(x + width, y + 0, zLevel).tex(1,0);
+		renderer.pos(x + 0, y + 0, zLevel).tex(0, 0);
 		// renderer.finishDrawing(); // TODO can just call this instead of tessellator.draw() ???
 		tessellator.draw();
 	}
