@@ -24,6 +24,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
@@ -57,6 +58,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
@@ -67,10 +69,12 @@ import zeldaswordskills.ZSSAchievements;
 import zeldaswordskills.api.block.BlockWeight;
 import zeldaswordskills.api.block.ILiftable;
 import zeldaswordskills.api.block.ISmashable;
+import zeldaswordskills.api.entity.INetCatchable;
 import zeldaswordskills.api.item.ArmorIndex;
 import zeldaswordskills.api.item.IFairyUpgrade;
 import zeldaswordskills.api.item.IHandlePickup;
 import zeldaswordskills.api.item.IHandleToss;
+import zeldaswordskills.api.item.IItemNet;
 import zeldaswordskills.api.item.ILiftBlock;
 import zeldaswordskills.api.item.ISmashBlock;
 import zeldaswordskills.api.item.IUnenchantable;
@@ -364,6 +368,47 @@ public class ZSSItemEvents
 
 	private boolean isVanillaBlockSmashable(Block block) {
 		return block.getMaterial() == Material.glass || block.getMaterial() == Material.ice;
+	}
+
+	@SubscribeEvent
+	public void onEntityAttacked(AttackEntityEvent event) {
+		EntityPlayer player = event.entityPlayer;
+		Entity target = event.target;
+		ItemStack stack = player.getCurrentEquippedItem();
+		if (stack != null && stack.getItem() instanceof IItemNet) {
+			IItemNet net = (IItemNet) stack.getItem();
+			if (target instanceof INetCatchable) {
+				INetCatchable catchable = (INetCatchable) target;
+				if (!player.worldObj.isRemote) {
+					// TODO Entity versus net strength system
+					ItemStack container = catchable.getCapturingContainer(stack, player);
+					ItemStack returnStack = catchable.getCapturedEntity(stack, player);
+					if (returnStack != null) {
+						if (!player.capabilities.isCreativeMode) {
+							if (net.onCapturedEntity(stack, player, target)) {
+								stack.damageItem(1, player);
+							}
+							if (container != null && !PlayerUtils.consumeInventoryItem(player, container, container.stackSize)) {
+								return;
+							}
+						}
+						PlayerUtils.addItemToInventory(player, returnStack);
+						target.setDead();
+						event.setCanceled(true);
+					}
+				}
+			}
+			else if (target instanceof EntityCreeper) {
+				if (!player.worldObj.isRemote) {
+					if (!player.capabilities.isCreativeMode) {
+						stack.damageItem(1, player);
+					}
+					PlayerUtils.addItemToInventory(player, new ItemStack(Items.spawn_egg, 1, 50));
+					target.setDead();
+					event.setCanceled(true);
+				}
+			}
+		}
 	}
 
 	private static void init() {
