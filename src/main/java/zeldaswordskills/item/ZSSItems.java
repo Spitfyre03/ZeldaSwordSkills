@@ -227,7 +227,25 @@ public class ZSSItems
 	tunicZoraHelm,
 	tunicZoraChest,
 	tunicZoraLegs,
-	tunicZoraBoots;
+	tunicZoraBoots,
+
+	toonBoots,// The boots for all toon sets of armor
+
+	greenToonHelmet,
+	greenToonChest,
+	greenToonLegs,
+
+	blueToonHelmet,
+	blueToonChest,
+	blueToonLegs,
+
+	redToonHelmet,
+	redToonChest,
+	redToonLegs,
+
+	purpleToonHelmet,
+	purpleToonChest,
+	purpleToonLegs;
 
 	/** Special Boots */
 	public static Item
@@ -489,6 +507,24 @@ public class ZSSItems
 				}
 			}
 		}).setUnlocalizedName("zora_tunic_boots");
+
+		toonBoots = new ItemArmorToonic(0, ArmorIndex.TYPE_BOOTS).setUnlocalizedName("toonic_boots");
+
+		greenToonHelmet = new ItemArmorToonic(0, ArmorIndex.TYPE_HELM).setUnlocalizedName("green_toonic_helm");
+		greenToonChest = new ItemArmorToonic(0, ArmorIndex.TYPE_CHEST).setUnlocalizedName("green_toonic_chest");
+		greenToonLegs = new ItemArmorToonic(0, ArmorIndex.TYPE_LEGS).setUnlocalizedName("green_toonic_legs");
+
+		blueToonHelmet = new ItemArmorToonic(0, ArmorIndex.TYPE_HELM).setUnlocalizedName("blue_toonic_helm");
+		blueToonChest = new ItemArmorToonic(0, ArmorIndex.TYPE_CHEST).setUnlocalizedName("blue_toonic_chest");
+		blueToonLegs = new ItemArmorToonic(0, ArmorIndex.TYPE_LEGS).setUnlocalizedName("blue_toonic_legs");
+
+		redToonHelmet = new ItemArmorToonic(0, ArmorIndex.TYPE_HELM).setUnlocalizedName("red_toonic_helm");
+		redToonChest = new ItemArmorToonic(0, ArmorIndex.TYPE_CHEST).setUnlocalizedName("red_toonic_chest");
+		redToonLegs = new ItemArmorToonic(0, ArmorIndex.TYPE_LEGS).setUnlocalizedName("red_toonic_legs");
+
+		purpleToonHelmet = new ItemArmorToonic(0, ArmorIndex.TYPE_HELM).setUnlocalizedName("purple_toonic_helm");
+		purpleToonChest = new ItemArmorToonic(0, ArmorIndex.TYPE_CHEST).setUnlocalizedName("purple_toonic_chest");
+		purpleToonLegs = new ItemArmorToonic(0, ArmorIndex.TYPE_LEGS).setUnlocalizedName("purple_toonic_legs");
 
 		// BOOTS
 		bootsHeavy = new ItemArmorBoots.ItemHeavyBoots(ArmorMaterial.IRON, ZSSMain.proxy.addArmor("boots"), "minecraft:textures/models/armor/iron_layer_1.png").setUnlocalizedName("boots_heavy");
