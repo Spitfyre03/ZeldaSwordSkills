@@ -189,6 +189,8 @@ public class ZSSItems
 	rocsFeather,
 	bugNet,
 	bigBugNet,
+	soupElixirFull,
+	soupElixirHalf;
 
 	//================ TREASURES TAB ================//
 	public static Item
@@ -603,6 +605,8 @@ public class ZSSItems
 		whip = new ItemWhip().setUnlocalizedName("whip");
 		bugNet = new ItemBugNet().setUnlocalizedName("bug_net").setMaxDamage(120);
 		bigBugNet = new ItemBugNet().setUnlocalizedName("bug_net_big").setMaxDamage(0);
+		soupElixirFull = new ItemElixirSoup().setUnlocalizedName("soup_elixir_full");
+		soupElixirHalf = new ItemElixirSoup().setUnlocalizedName("soup_elixir_half");
 
 		//===================== MASK TAB =====================//
 		maskBlast = new ItemMask.ItemMaskBlast(ArmorMaterial.IRON, ZSSMain.proxy.addArmor("mask")).setUnlocalizedName("mask_blast");
