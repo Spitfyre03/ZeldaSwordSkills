@@ -29,6 +29,7 @@ import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -245,6 +246,8 @@ public class ZSSItems
 	public static Item
 	swordBroken,
 	swordKokiri,
+	swordRazor,
+	swordGilded,
 	swordOrdon,
 	swordGiant,
 	swordBiggoron,
@@ -499,6 +502,16 @@ public class ZSSItems
 
 		// SWORDS
 		swordKokiri = new ItemZeldaSword(ToolMaterial.IRON, -1.0F).setUnlocalizedName("sword_kokiri").setMaxDamage(256);
+		// TODO add trading sequence for upgrading kokiri and razor swords
+		swordRazor = new ItemZeldaSword(ToolMaterial.IRON, 2.0F) {
+			@Override
+			protected void onStackDamaged(ItemStack stack, EntityLivingBase entity) {
+				if (stack.stackSize == 0 && entity instanceof EntityPlayer) {
+					PlayerUtils.addItemToInventory((EntityPlayer) entity, new ItemStack(swordKokiri, 1));
+				}
+			}
+		}.setUnlocalizedName("sword_razor").setMaxDamage(100);
+		swordGilded = new ItemZeldaSword(ToolMaterial.GOLD, 6.0F).setNoItemOnBreak().setUnlocalizedName("sword_gilded").setMaxDamage(0);
 		swordOrdon = new ItemZeldaSword(ToolMaterial.IRON, 1.0F).setUnlocalizedName("sword_ordon").setMaxDamage(512);
 		swordGiant = new ItemZeldaSword(ToolMaterial.IRON, 6.0F, true).setUnlocalizedName("sword_giant").setMaxDamage(32);
 		swordBiggoron = new ItemZeldaSword(ToolMaterial.IRON, 6.0F, true).setNoItemOnBreak().setUnlocalizedName("sword_biggoron").setMaxDamage(0);
