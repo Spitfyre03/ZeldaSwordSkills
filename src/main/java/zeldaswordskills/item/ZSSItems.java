@@ -248,6 +248,7 @@ public class ZSSItems
 	swordKokiri,
 	swordRazor,
 	swordGilded,
+	swordFairy,
 	swordOrdon,
 	swordGiant,
 	swordBiggoron,
@@ -512,6 +513,7 @@ public class ZSSItems
 			}
 		}.setUnlocalizedName("sword_razor").setMaxDamage(100);
 		swordGilded = new ItemZeldaSword(ToolMaterial.GOLD, 6.0F).setNoItemOnBreak().setUnlocalizedName("sword_gilded").setMaxDamage(0);
+		swordFairy = new ItemZeldaSword(ToolMaterial.EMERALD, 6.5F, true).setNoItemOnBreak().setUnlocalizedName("sword_fairy").setMaxDamage(0);
 		swordOrdon = new ItemZeldaSword(ToolMaterial.IRON, 1.0F).setUnlocalizedName("sword_ordon").setMaxDamage(512);
 		swordGiant = new ItemZeldaSword(ToolMaterial.IRON, 6.0F, true).setUnlocalizedName("sword_giant").setMaxDamage(32);
 		swordBiggoron = new ItemZeldaSword(ToolMaterial.IRON, 6.0F, true).setNoItemOnBreak().setUnlocalizedName("sword_biggoron").setMaxDamage(0);
