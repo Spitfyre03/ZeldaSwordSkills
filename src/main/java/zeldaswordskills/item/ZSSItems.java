@@ -186,7 +186,9 @@ public class ZSSItems
 	magicJar,
 	magicJarBig,
 	magicContainer,
-	rocsFeather;
+	rocsFeather,
+	bugNet,
+	bigBugNet,
 
 	//================ TREASURES TAB ================//
 	public static Item
@@ -599,6 +601,8 @@ public class ZSSItems
 		rodIce = new ItemMagicRod(MagicType.ICE, 6.0F, 10.0F).setUnlocalizedName("rod_ice");
 		rodTornado = new ItemMagicRod(MagicType.WIND, 4.0F, 10.0F).setUnlocalizedName("rod_tornado");
 		whip = new ItemWhip().setUnlocalizedName("whip");
+		bugNet = new ItemBugNet().setUnlocalizedName("bug_net").setMaxDamage(120);
+		bigBugNet = new ItemBugNet().setUnlocalizedName("bug_net_big").setMaxDamage(0);
 
 		//===================== MASK TAB =====================//
 		maskBlast = new ItemMask.ItemMaskBlast(ArmorMaterial.IRON, ZSSMain.proxy.addArmor("mask")).setUnlocalizedName("mask_blast");
@@ -766,6 +770,7 @@ public class ZSSItems
 		GameRegistry.addShapelessRecipe(new ItemStack(tunicZoraLegs), tunicGoronLegs, new ItemStack(Items.dye,1, EnumDyeColor.BLUE.getDyeDamage()));
 		GameRegistry.addShapelessRecipe(new ItemStack(tunicHeroLegs), tunicGoronLegs, new ItemStack(Items.dye, 1, EnumDyeColor.GREEN.getDyeDamage()));
 		GameRegistry.addShapelessRecipe(new ItemStack(tunicHeroLegs), tunicZoraLegs, new ItemStack(Items.dye, 1, EnumDyeColor.GREEN.getDyeDamage()));
+		GameRegistry.addRecipe(new ItemStack(ZSSItems.bugNet), "w", "s", "s", 'w', Items.string, 's', Items.stick);
 	}
 
 	/**
