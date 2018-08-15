@@ -17,10 +17,14 @@
 
 package zeldaswordskills.capabilities;
 
+import zeldaswordskills.capabilities.sandhours.CapabilitySandHours;
+
 public class CapabilityRegistry {
 
 	/**
 	 * Registers our Capabilities using Forge's CapabilityManager. Must be done during PreInit
 	 */
-	public static void regsiter() {}
+	public static void regsiter() {
+		CapabilitySandHours.register();
+	}
 }
