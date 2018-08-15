@@ -34,6 +34,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import zeldaswordskills.api.item.WeaponRegistry;
 import zeldaswordskills.block.ZSSBlocks;
+import zeldaswordskills.capabilities.CapabilityRegistry;
 import zeldaswordskills.command.ZSSCommands;
 import zeldaswordskills.entity.ZSSEntities;
 import zeldaswordskills.handler.BattlegearEvents;
@@ -87,6 +88,7 @@ public class ZSSMain
 		Config.preInit(event);
 		isAtlasEnabled = Loader.isModLoaded("antiqueatlas");
 		isBG2Enabled = Loader.isModLoaded("battlegear2");
+		CapabilityRegistry.regsiter();
 		ZSSBlocks.preInit();
 		ZSSItems.preInit();
 		ZSSEntities.preInit();
