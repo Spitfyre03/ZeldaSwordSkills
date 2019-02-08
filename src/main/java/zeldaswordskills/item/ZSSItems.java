@@ -274,7 +274,8 @@ public class ZSSItems
 	swordTempered,
 	swordGolden,
 	swordMasterTrue,
-	swordDarknut;
+	swordDarknut,
+	swordPhantom; // With HG
 
 	/** Other Melee Weapons */
 	public static Item
@@ -559,6 +560,7 @@ public class ZSSItems
 		swordMasterTrue = new ItemZeldaSword(ToolMaterial.EMERALD, 8.0F).setMasterSword().setUnlocalizedName("sword_master_true").setMaxDamage(0);
 		swordDarknut = new ItemZeldaSword(ToolMaterial.IRON, 1.0F, true, 20, 0.5F).setUnlocalizedName("sword_darknut").setMaxDamage(768);
 		swordBroken = new ItemBrokenSword().setUnlocalizedName("sword_broken");
+		swordPhantom = new ItemPhantomSword(ToolMaterial.EMERALD, 2.0F).setUnlocalizedName("sword_phantom");
 
 		// HAMMERS
 		hammer = new ItemHammer(BlockWeight.VERY_LIGHT, 8.0F, 50.0F).setUnlocalizedName("hammer");
