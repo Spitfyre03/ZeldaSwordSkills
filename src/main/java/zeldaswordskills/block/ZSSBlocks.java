@@ -74,7 +74,8 @@ public class ZSSBlocks
 	doorBoss,
 	doorLocked,
 	dungeonCore,
-	dungeonStone;
+	dungeonStone,
+	phantomBlock;
 
 	/**
 	 * Call during FMLPreInitializationEvent to initialize and register all blocks
@@ -139,6 +140,8 @@ public class ZSSBlocks
 		GameRegistry.registerBlock(warpStone, ItemWarpStone.class, warpStone.getUnlocalizedName().substring(5));
 		ancientTablet = new BlockAncientTablet(Material.rock).setUnlocalizedName("ancient_tablet");
 		GameRegistry.registerBlock(ancientTablet, ItemMetadataBlock.class, ancientTablet.getUnlocalizedName().substring(5), new Object[]{new String[]{BlockAncientTablet.EnumType.BOMBOS.getName(), BlockAncientTablet.EnumType.ETHER.getName(), BlockAncientTablet.EnumType.QUAKE.getName()}});
+		phantomBlock = new BlockPhantom().setUnlocalizedName("phantom_block");
+		GameRegistry.registerBlock(phantomBlock, ItemModBlock.class, phantomBlock.getUnlocalizedName().substring(5));
 		// register block items for creative tab comparator sorting:
 		try {
 			for (Field f: ZSSBlocks.class.getFields()) {
