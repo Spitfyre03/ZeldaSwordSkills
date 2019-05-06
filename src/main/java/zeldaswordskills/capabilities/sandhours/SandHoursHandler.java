@@ -60,4 +60,5 @@ public class SandHoursHandler implements ISandHoursHandler {
 	public void setMaxSands(int amount) {
 		maxSands = Math.max(0, amount);
 	}
+
 }

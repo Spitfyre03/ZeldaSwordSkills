@@ -56,6 +56,7 @@ import zeldaswordskills.network.client.SyncSkillPacket;
 import zeldaswordskills.network.client.UnpressKeyPacket;
 import zeldaswordskills.network.client.UpdateBuffPacket;
 import zeldaswordskills.network.client.UpdateComboPacket;
+import zeldaswordskills.network.client.capabilities.sandhours.SandHoursUpdatePacket;
 import zeldaswordskills.network.server.AddExhaustionPacket;
 import zeldaswordskills.network.server.BombTickPacket;
 import zeldaswordskills.network.server.BorrowMaskPacket;
@@ -103,6 +104,7 @@ public class PacketDispatcher
 		registerMessage(OpenGossipStoneEditorPacket.class);
 		registerMessage(OpenSongGuiPacket.class);
 		registerMessage(PacketISpawnParticles.class);
+		registerMessage(SandHoursUpdatePacket.class);
 		registerMessage(SetItemModePacket.class);
 		registerMessage(SetNockedArrowPacket.class);
 		registerMessage(SpawnNayruParticlesPacket.class);

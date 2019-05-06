@@ -19,6 +19,17 @@ package zeldaswordskills.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
+import zeldaswordskills.api.capabilities.sandhours.ISandHoursHandler;
+import zeldaswordskills.capabilities.sandhours.CapabilitySandHours;
 import zeldaswordskills.creativetab.ZSSCreativeTabs;
 
 public class BlockPhantom extends Block {
@@ -29,4 +40,21 @@ public class BlockPhantom extends Block {
 		setStepSound(soundTypeStone);
 	}
 
+	@Override
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity) {
+		if (!world.isRemote && entity instanceof EntityLivingBase) {
+			EntityLivingBase target = (EntityLivingBase)entity;
+			ItemStack stack = target.getHeldItem();
+			if (stack != null && stack.hasCapability(CapabilitySandHours.CAP, null)) {
+				ISandHoursHandler handler = stack.getCapability(CapabilitySandHours.CAP, null);
+				if (handler.removeAmount(2) == 0) {
+					return;
+				}
+			}
+			if (entity instanceof EntityPlayer && !((EntityPlayer)target).capabilities.isCreativeMode) {
+				target.addPotionEffect(new PotionEffect(Potion.confusion.id, 160, 1));
+			}
+			target.attackEntityFrom(DamageSource.magic, 2);
+		}
+	}
 }
