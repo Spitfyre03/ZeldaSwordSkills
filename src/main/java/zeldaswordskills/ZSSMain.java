@@ -34,6 +34,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import zeldaswordskills.api.item.WeaponRegistry;
 import zeldaswordskills.block.ZSSBlocks;
+import zeldaswordskills.capabilities.ContainerCapabilityListenersManager;
 import zeldaswordskills.capabilities.CapabilityRegistry;
 import zeldaswordskills.command.ZSSCommands;
 import zeldaswordskills.entity.ZSSEntities;
@@ -116,6 +117,7 @@ public class ZSSMain
 			MinecraftForge.EVENT_BUS.register(WorldGenGossipStones.INSTANCE);
 		}
 		MinecraftForge.EVENT_BUS.register(WorldGenJars.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(ContainerCapabilityListenersManager.INSTANCE);
 		FMLInterModComms.sendRuntimeMessage(ModInfo.ID, "VersionChecker", "addVersionCheck", ModInfo.VERSION_LIST);
 	}
 
