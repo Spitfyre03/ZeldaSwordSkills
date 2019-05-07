@@ -275,7 +275,8 @@ public class ZSSItems
 	swordGolden,
 	swordMasterTrue,
 	swordDarknut,
-	swordPhantom; // With HG
+	bladePhantom,
+	swordPhantom;
 
 	/** Other Melee Weapons */
 	public static Item

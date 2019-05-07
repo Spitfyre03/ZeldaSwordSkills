@@ -333,7 +333,8 @@ public class DungeonLootLists
 			getLoot(ZSSItems.tunicZoraHelm, 1, 1, 1),
 			getLoot(ZSSItems.tunicZoraChest, 1, 1, 1),
 			getLoot(ZSSItems.tunicZoraLegs, 1, 1, 1),
-			getLoot(ZSSItems.tunicZoraBoots, 1, 1, 1)
+			getLoot(ZSSItems.tunicZoraBoots, 1, 1, 1),
+			getLoot(ZSSItems.bladePhantom, 1, 1, 1)
 		});
 	}
 

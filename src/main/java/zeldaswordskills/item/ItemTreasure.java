@@ -78,7 +78,8 @@ public class ItemTreasure extends BaseModItem implements IRightClickEntity, IUne
 		PRESCRIPTION("prescription", true),
 		TENTACLE("tentacle", "generic", 16, 64, true),
 		ZELDAS_LETTER("zeldas_letter"),
-		KNIGHTS_CREST("knights_crest", "knights_crest", 32, 64, false);
+		KNIGHTS_CREST("knights_crest", "knights_crest", 32, 64, false),
+		PHANTOM_BLADE("phantom_blade");
 
 		public final String name;
 		/** Unlocalized string used to retrieve chat comment when an NPC is not interested in trading */
