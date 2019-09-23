@@ -202,7 +202,8 @@ public class ZSSItems
 	jellyChu,
 	treasure,
 	skulltulaToken,
-	linksHouse;
+	linksHouse,
+	phantomHourglass;
 
 	//================ NO TAB ================//
 	public static Item
@@ -692,6 +693,7 @@ public class ZSSItems
 		instrument = new ItemInstrument();
 		bombFlowerSeed = new ItemBombFlowerSeed().setUnlocalizedName("seed_bomb_flower");
 		bookMudora = new BaseModItem().setUnlocalizedName("book_mudora").setMaxDamage(0).setCreativeTab(ZSSCreativeTabs.tabMisc);
+		phantomHourglass = new ItemPhantomHourglass().setUnlocalizedName("phantom_hourglass").setCreativeTab(ZSSCreativeTabs.tabMisc);
 
 		//===================== NO TAB =====================//
 		heldBlock = new ItemHeldBlock().setUnlocalizedName("held_block");
