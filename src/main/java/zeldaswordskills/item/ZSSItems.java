@@ -246,7 +246,12 @@ public class ZSSItems
 
 	purpleToonHelmet,
 	purpleToonChest,
-	purpleToonLegs;
+	purpleToonLegs,
+
+	darknutHelmet,
+	darknutChest,
+	darknutLegs,
+	darknutBoots;
 
 	/** Special Boots */
 	public static Item
@@ -327,6 +332,46 @@ public class ZSSItems
 
 	//================ SPAWN EGGS TAB ================//
 	public static Item eggSpawner; // egg item for all ZSS spawnable entities
+
+	/*// TODO items to be "class"ified and added
+	public static Item
+	shieldOrdon,
+	shieldHero,
+	shieldFace,
+	shieldBlue,
+	shieldWood1, shieldWood2, shieldWood3,
+	shieldSteel1, shieldSteel2, shieldSteel3,
+	shieldSacred1, shieldSacred2, shieldSacred3,
+
+	swordFierce, swordLokomo,
+	// swordFour,
+	swordGoddess1, swordGoddess2, swordGoddess3,
+	swordBasic,
+	swordOshus,
+	swordRecruit,
+	// swordPicori,
+	// swordGreen,
+	// swordRed,
+	// swordBlue,
+	cuccoGlove,
+	fairyDust,
+	goldDust,
+	fierceFragment,
+
+	metal1, ///////////////////////
+	metal2, // For Phantom Blade //
+	metal3, ///////////////////////
+	// Maybe be able to craft from regular sand. Blessed by fairies? Or a Life Force rare drop combined with regular sand?
+	hourSand, // I think we should add a special block used for loading sand into the HG. Leaves room for some awesome animating FX.
+	spiritEssence,
+	eightBitSwordWooden, // Handle changes colors to match current tunic. Hmmm... Maybe use masking like the spawn eggs do?
+	eightBitSwordWhite, eightBitSwordMagical,
+	eightBitShieldSmall, eightBitShieldMagical,
+	// spawnEggLandOctorok,// Needed?
+	// triforceShard, triforce,
+	lantern, // burns cobwebs. dynamic directional light?
+
+	smallBeetle, bigBeetle, volcanicLadybug;
 
 	/**
 	 * Initializes mod item indices from configuration file
@@ -528,6 +573,11 @@ public class ZSSItems
 		purpleToonHelmet = new ItemArmorToonic(0, ArmorIndex.TYPE_HELM).setUnlocalizedName("purple_toonic_helm");
 		purpleToonChest = new ItemArmorToonic(0, ArmorIndex.TYPE_CHEST).setUnlocalizedName("purple_toonic_chest");
 		purpleToonLegs = new ItemArmorToonic(0, ArmorIndex.TYPE_LEGS).setUnlocalizedName("purple_toonic_legs");
+
+		darknutHelmet = new ItemArmorDarknut(0, ArmorIndex.TYPE_HELM).setUnlocalizedName("darknut_helmet");
+		darknutChest = new ItemArmorDarknut(0, ArmorIndex.TYPE_CHEST).setUnlocalizedName("darknut_chest");
+		darknutLegs = new ItemArmorDarknut(0, ArmorIndex.TYPE_LEGS).setUnlocalizedName("darknut_legs");
+		darknutBoots = new ItemArmorDarknut(0, ArmorIndex.TYPE_BOOTS).setUnlocalizedName("darknut_boots");
 
 		// BOOTS
 		bootsHeavy = new ItemArmorBoots.ItemHeavyBoots(ArmorMaterial.IRON, ZSSMain.proxy.addArmor("boots"), "minecraft:textures/models/armor/iron_layer_1.png").setUnlocalizedName("boots_heavy");
