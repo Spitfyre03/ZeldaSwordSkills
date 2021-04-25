@@ -54,6 +54,9 @@ public class Sounds {
 	// ENTITY SOUNDS
 	public static final String BOMB_FUSE = ModInfo.ID + ":bomb_fuse";
 	public static final String BOMB_WHISTLE = ModInfo.ID + ":bomb_whistle";
+	public static final String CUCCO_LIVING = ModInfo.ID + ":cucco_living";
+	public static final String CUCCO_HURT = ModInfo.ID + ":cucco_hurt";
+	public static final String CUCCO_DIE = ModInfo.ID + ":cucco_die";
 	public static final String CHU_MERGE = ModInfo.ID + ":chu_merge";
 	public static final String DARKNUT_DIE = ModInfo.ID + ":armor_die";
 	public static final String DARKNUT_HIT = ModInfo.ID + ":armor_hit";
