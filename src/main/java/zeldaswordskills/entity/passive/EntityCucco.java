@@ -67,7 +67,7 @@ public class EntityCucco extends EntityChicken {
 		if (this.isAngry()) {
 			// Run the anger cycle. If it is finished, clear targets and remove speed
 			if (--this.revengeAttackTimer == 0) {
-				this.setAngryAt(null);
+				this.setAngryAt(null, 0);
 				if (moveSpeed.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
 					moveSpeed.removeModifier(ATTACK_SPEED_BOOST_MODIFIER);
 				}
@@ -100,25 +100,23 @@ public class EntityCucco extends EntityChicken {
 							EntityCucco cucco = new EntityCucco(this.worldObj);
 							cucco.setPosition(posX, posY, posZ);
 							if (this.worldObj.spawnEntityInWorld(cucco)) {
-								cucco.setAngryAt(target);
-								cucco.revengeAttackTimer = this.revengeAttackTimer;
+								cucco.setAngryAt(target, this.revengeAttackTimer);
 							}
 						}
-						this.swarmTimer = this.rand.nextInt(16);
+						this.swarmTimer = this.rand.nextInt(16) + 1;
 					}
 					else if (this.swarmSpawnCount > 0) {
-						double posX = target.posX + ((this.rand.nextDouble() - this.rand.nextDouble()) * 5.0D) + 0.5D;
+						double posX = target.posX + ((this.rand.nextDouble() - this.rand.nextDouble()) * 6.0D) + 0.5D;
 						double posY = target.posY + this.rand.nextInt(3);
-						double posZ = target.posZ + ((this.rand.nextDouble() - this.rand.nextDouble()) * 5.0D) + 0.5D;
+						double posZ = target.posZ + ((this.rand.nextDouble() - this.rand.nextDouble()) * 6.0D) + 0.5D;
 						EntityCucco cucco = new EntityCucco(this.worldObj);
 						cucco.setPosition(posX, posY, posZ);
 						if (this.worldObj.spawnEntityInWorld(cucco)) {
 							--this.swarmSpawnCount;
-							cucco.setAngryAt(target);
-							cucco.revengeAttackTimer = this.revengeAttackTimer;
+							cucco.setAngryAt(target, this.revengeAttackTimer);
 						}
 						if (this.swarmSpawnCount != 0) {
-							this.swarmTimer = this.rand.nextInt(20);
+							this.swarmTimer = this.rand.nextInt(20) + 1;
 						}
 					}
 				}
@@ -174,8 +172,9 @@ public class EntityCucco extends EntityChicken {
 		if (!this.isAngry() && source.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer)source.getEntity();
 			if (!player.capabilities.isCreativeMode && this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL) {
-				this.setAngryAt((EntityPlayer)source.getEntity());
-				this.swarmTimer = this.rand.nextInt(20);
+				int timer = this.isTargetHarvy(player) ? 1200 + this.rand.nextInt(600) : 200 + this.rand.nextInt(200);
+				this.setAngryAt(player, timer);
+				this.swarmTimer = this.rand.nextInt(20) + 1;
 				if (!this.isTargetHarvy(player)) {
 					this.swarmSpawnCount = this.rand.nextInt(4) + 5;
 				}
@@ -210,7 +209,7 @@ public class EntityCucco extends EntityChicken {
 		return this.revengeAttackTimer > 0 && this.attackTargetUUID != null;
 	}
 
-	public void setAngryAt(EntityPlayer target) {
+	public void setAngryAt(EntityPlayer target, int timer) {
 		if (target == null) {
 			this.swarmTimer = 0;
 			this.swarmSpawnCount = 0;
@@ -220,12 +219,7 @@ public class EntityCucco extends EntityChicken {
 			this.dataWatcher.updateObject(10, (byte)0);
 		}
 		else {
-			if (this.isTargetHarvy(target)) {
-				this.revengeAttackTimer = 1200 + this.rand.nextInt(600);
-			}
-			else {
-				this.revengeAttackTimer = 400 + this.rand.nextInt(400);
-			}
+			this.revengeAttackTimer = timer;
 			this.attackTargetUUID = target.getUniqueID();
 			// possibly a random angry sound timer like EntityPigZombie. Doesn't need to persist to NBT
 			this.setRevengeTarget(target);
@@ -284,9 +278,7 @@ public class EntityCucco extends EntityChicken {
 			super.setEntityAttackTarget(victim, assailant);
 			if (victim instanceof EntityCucco && assailant instanceof EntityPlayer) {
 				EntityCucco cucco = (EntityCucco)victim;
-				cucco.setAngryAt((EntityPlayer)assailant);
-				// Necessary for helpers to be on the same tick. Redundant on self
-				cucco.revengeAttackTimer = this.cuccoEntity.revengeAttackTimer;
+				cucco.setAngryAt((EntityPlayer)assailant, this.cuccoEntity.revengeAttackTimer);
 			}
 		}
 	}
