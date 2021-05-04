@@ -44,6 +44,12 @@ public class EntityCucco extends EntityChicken {
 		this.targetTasks.addTask(1, new EntityAICuccoHurtByTarget(this));
 	}
 
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		// Whether or not this Cucco is angry. Used by the client for rendering the angry model
+		this.dataWatcher.addObject(10, (byte)0);
+	}
 
 	@Override
 	protected void applyEntityAttributes() {
@@ -72,12 +78,14 @@ public class EntityCucco extends EntityChicken {
 				this.setRevengeTarget(entityPlayer);
 				this.attackingPlayer = entityPlayer;
 				this.recentlyHit = this.getRevengeTimer();
+				this.dataWatcher.updateObject(10, (byte)0);
 				if (moveSpeed.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
 					moveSpeed.removeModifier(ATTACK_SPEED_BOOST_MODIFIER);
 				}
 			}
 			// If the Cucco is actively targetting a player, check for speed and cycle swarm counter
 			else if (this.getAttackTarget() instanceof EntityPlayer) {
+				this.dataWatcher.updateObject(10, (byte)1);
 				if (!moveSpeed.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
 					moveSpeed.applyModifier(ATTACK_SPEED_BOOST_MODIFIER);
 				}
@@ -116,6 +124,7 @@ public class EntityCucco extends EntityChicken {
 				}
 			}
 		}
+		this.dataWatcher.updateObject(10, (byte)(this.isAngry() && this.getAttackTarget() != null ? 1 : 0));
 	}
 
 	@Override
@@ -208,6 +217,7 @@ public class EntityCucco extends EntityChicken {
 			this.revengeAttackTimer = 0;
 			this.attackTargetUUID = null;
 			this.setRevengeTarget(null);
+			this.dataWatcher.updateObject(10, (byte)0);
 		}
 		else {
 			if (this.isTargetHarvy(target)) {
