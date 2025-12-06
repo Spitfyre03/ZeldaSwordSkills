@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import zeldaswordskills.ZSSMain;
 import zeldaswordskills.ref.Sounds;
 
 import java.util.UUID;
@@ -67,7 +68,8 @@ public class EntityCucco extends EntityChicken {
 		if (this.isAngry()) {
 			// Run the anger cycle. If it is finished, clear targets and remove speed
 			if (--this.revengeAttackTimer == 0) {
-				this.setAngryAt(null, 0);
+				this.resetAnger();
+				//this.setAttackTarget(null);
 				if (moveSpeed.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
 					moveSpeed.removeModifier(ATTACK_SPEED_BOOST_MODIFIER);
 				}
@@ -112,6 +114,7 @@ public class EntityCucco extends EntityChicken {
 						if (this.worldObj.spawnEntityInWorld(cucco)) {
 							--this.swarmSpawnCount;
 							cucco.setAngryAt(target, this.revengeAttackTimer);
+							cucco.setAttackTarget(target);
 						}
 						if (this.swarmSpawnCount != 0) {
 							this.swarmTimer = this.rand.nextInt(20) + 1;
@@ -170,7 +173,7 @@ public class EntityCucco extends EntityChicken {
 		if (!this.isAngry() && source.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer)source.getEntity();
 			if (!player.capabilities.isCreativeMode && this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL) {
-				int timer = this.isTargetHarvy(player) ? 1200 + this.rand.nextInt(600) : 200 + this.rand.nextInt(200);
+				int timer = this.isTargetHarvy(player) ? 2400 + this.rand.nextInt(1200) : 600 + this.rand.nextInt(600);
 				this.setAngryAt(player, timer);
 				this.swarmTimer = this.rand.nextInt(20) + 1;
 				if (!this.isTargetHarvy(player)) {
@@ -206,20 +209,20 @@ public class EntityCucco extends EntityChicken {
 	public boolean isAngry(){ return this.revengeAttackTimer > 0; }
 
 	public void setAngryAt(EntityPlayer target, int timer) {
-		if (target == null) {
-			this.swarmTimer = 0;
-			this.swarmSpawnCount = 0;
-			this.revengeAttackTimer = 0;
-			this.attackTargetUUID = null;
-			this.setRevengeTarget(null);
-			this.dataWatcher.updateObject(10, (byte)0);
-		}
-		else {
-			this.revengeAttackTimer = timer;
-			this.attackTargetUUID = target.getUniqueID();
-			// possibly a random angry sound timer like EntityPigZombie. Doesn't need to persist to NBT
-			this.setRevengeTarget(target);
-		}
+		this.revengeAttackTimer = timer;
+		this.attackTargetUUID = target.getUniqueID();
+		// possibly a random angry sound timer like EntityPigZombie. Doesn't need to persist to NBT
+		// The below line is possibly redundant. Revenge target is set when entity is attacked
+		//this.setRevengeTarget(target);
+	}
+
+	public void resetAnger() {
+		this.swarmTimer = 0;
+		this.swarmSpawnCount = 0;
+		this.revengeAttackTimer = 0;
+		this.attackTargetUUID = null;
+		this.setRevengeTarget(null);
+		this.dataWatcher.updateObject(10, (byte)0);
 	}
 
 	public static class EntityAICuccoHurtByTarget extends EntityAIHurtByTarget {
@@ -234,13 +237,6 @@ public class EntityCucco extends EntityChicken {
 		@Override
 		public boolean shouldExecute() {
 			// if the mode is peaceful, do nothing
-			if (this.cuccoEntity.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL) {
-				return false;
-			}
-			// if the target is dead, do nothing
-			if (this.taskOwner.getAITarget() != null && this.taskOwner.getAITarget().isDead) {
-				return false;
-			}
 			return super.shouldExecute();
 		}
 
@@ -258,11 +254,7 @@ public class EntityCucco extends EntityChicken {
 				EntityLivingBase target = this.taskOwner.getAITarget();
 				// Revenge and forgiveness go hand-in-hand
 				if (target != null && !this.cuccoEntity.isTargetHarvy(target) && target.isDead) {
-					this.setEntityAttackTarget(this.taskOwner, null);
-					return false;
-				}
-				// If the player is in creative, disengage, but don't forget
-				else if (target instanceof EntityPlayer && ((EntityPlayer)target).capabilities.isCreativeMode) {
+					this.cuccoEntity.resetAnger();
 					return false;
 				}
 			}
