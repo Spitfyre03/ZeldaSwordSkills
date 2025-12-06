@@ -1,0 +1,18 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="GNUv3 General Public License"
+issueTrackerURL="https://github.com/coolAlias/ZeldaSwordSkills/issues"
+
+[[mods]]
+    modId="zeldaswordskills"
+    version="${file.jarVersion}"
+    displayName="Zelda Sword Skills" #mandatory
+    # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
+    #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+    # A URL for the "homepage" for this mod, displayed in the mod UI
+    #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+    logoFile="src/main/resources/zss_logo.png"
+    #credits="Thanks for this example mod goes to Java" #optional
+    authors="coolAlias, Spitfyre03"
+    description='''
+    '''
