@@ -11,7 +11,7 @@ issueTrackerURL="https://github.com/coolAlias/ZeldaSwordSkills/issues"
     #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
     # A URL for the "homepage" for this mod, displayed in the mod UI
     #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
-    logoFile="src/main/resources/zss_logo.png"
+    logoFile="zss_logo.png"
     #credits="Thanks for this example mod goes to Java" #optional
     authors="coolAlias, Spitfyre03"
     description='''

@@ -17,67 +17,21 @@
 
 package zeldaswordskills.item;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.GameData;
 import zeldaswordskills.ZSSMain;
-import zeldaswordskills.api.block.BlockWeight;
-import zeldaswordskills.api.block.IHookable;
-import zeldaswordskills.api.entity.BombType;
-import zeldaswordskills.api.entity.MagicType;
-import zeldaswordskills.api.item.ArmorIndex;
-import zeldaswordskills.block.BlockSacredFlame;
-import zeldaswordskills.block.ZSSBlocks;
-import zeldaswordskills.creativetab.ZSSCreativeTabs;
-import zeldaswordskills.entity.ZSSEntityInfo;
-import zeldaswordskills.entity.buff.Buff;
-import zeldaswordskills.entity.player.ZSSPlayerInfo;
-import zeldaswordskills.entity.player.ZSSPlayerSkills;
-import zeldaswordskills.entity.projectile.EntitySeedShotDeku;
-import zeldaswordskills.entity.projectile.EntityThrowingRock;
-import zeldaswordskills.handler.TradeHandler;
-import zeldaswordskills.item.ItemInstrument.Instrument;
-import zeldaswordskills.item.crafting.RecipeBagToBombArrows;
-import zeldaswordskills.item.crafting.RecipeCombineBombBag;
-import zeldaswordskills.ref.Config;
 import zeldaswordskills.ref.ModInfo;
 import zeldaswordskills.ref.Sounds;
-import zeldaswordskills.skills.SkillBase;
-import zeldaswordskills.util.PlayerUtils;
-import zeldaswordskills.world.gen.structure.LinksHouse;
+
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class ZSSItems
 {
@@ -86,15 +40,12 @@ public class ZSSItems
 	private static int sortId = 0;
 	/** List of items added by other mods that are scheduled to have comparator mappings added */
 	private static final List<Item> addonItems = new ArrayList<Item>();
-	private static Comparator<Item> itemComparator = new Comparator<Item>() {
-		@Override
-		public int compare(Item a, Item b) {
-			if (itemList.containsKey(a) && itemList.containsKey(b)) {
-				return itemList.get(a) - itemList.get(b);
-			} else {
-				ZSSMain.logger.warn("A mod item " + a.getUnlocalizedName() + " or " + b.getUnlocalizedName() + " is missing a comparator mapping");
-				return GameData.getItemRegistry().getId(a) - GameData.getItemRegistry().getId(b);
-			}
+	private static final Comparator<Item> itemComparator = (a, b) -> {
+		if (itemList.containsKey(a) && itemList.containsKey(b)) {
+			return itemList.get(a) - itemList.get(b);
+		} else {
+			ZSSMain.LOGGER.warn("A mod item " + a.getDescriptionId() + " or " + b.getDescriptionId() + " is missing a comparator mapping");
+			return Registry.ITEM_REGISTRY.g - GameData.getItemRegistry().getId(b);
 		}
 	};
 	public static Comparator<ItemStack> itemstackComparator = new Comparator<ItemStack>() {
@@ -141,6 +92,7 @@ public class ZSSItems
 
 	/** Material used for masks */
 	public static final ArmorMaterial WOOD = EnumHelper.addArmorMaterial("Wood", "FakeTexture", 5, new int[] {1,3,2,1}, 5);
+
 
 	/* Creative Tabs are sorted in the order that Items are declared */
 	//================ SKILLS TAB ================//
