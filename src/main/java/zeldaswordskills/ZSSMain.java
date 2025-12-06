@@ -17,42 +17,12 @@
 
 package zeldaswordskills;
 
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import zeldaswordskills.api.item.WeaponRegistry;
-import zeldaswordskills.block.ZSSBlocks;
-import zeldaswordskills.capabilities.CapabilityRegistry;
-import zeldaswordskills.command.ZSSCommands;
-import zeldaswordskills.entity.ZSSEntities;
-import zeldaswordskills.handler.BattlegearEvents;
-import zeldaswordskills.handler.GuiHandler;
-import zeldaswordskills.handler.ZSSCombatEvents;
-import zeldaswordskills.handler.ZSSEntityEvents;
-import zeldaswordskills.handler.ZSSItemEvents;
-import zeldaswordskills.item.ItemHeroBow;
-import zeldaswordskills.item.ZSSItems;
-import zeldaswordskills.network.PacketDispatcher;
-import zeldaswordskills.ref.Config;
 import zeldaswordskills.ref.ModInfo;
-import zeldaswordskills.world.gen.AntiqueAtlasHelper;
-import zeldaswordskills.world.gen.DungeonLootLists;
-import zeldaswordskills.world.gen.ZSSBossDungeonGen;
-import zeldaswordskills.world.gen.ZSSWorldGenEvent;
-import zeldaswordskills.world.gen.feature.WorldGenGossipStones;
-import zeldaswordskills.world.gen.feature.WorldGenJars;
 
 /**
  * 
@@ -64,25 +34,35 @@ import zeldaswordskills.world.gen.feature.WorldGenJars;
  * included.
  *
  */
-@Mod(modid = ModInfo.ID, name = ModInfo.NAME, version = ModInfo.VERSION, updateJSON = ModInfo.VERSION_LIST
-	, guiFactory = ModInfo.FACTORY_PATH)
-public class ZSSMain
-{
+@Mod(ModInfo.ID)
+public class ZSSMain {
+
+	public static final Logger LOGGER = LogManager.getLogger(ModInfo.ID);
+
+	public ZSSMain() {
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonSetup);
+	}
+
+	private void onCommonSetup(FMLCommonSetupEvent event) {
+		LOGGER.info("Capturing Common Setup event in ZSS");
+	}
+	/*
 	@Mod.Instance(ModInfo.ID)
 	public static ZSSMain instance;
 
 	@SidedProxy(clientSide = ModInfo.CLIENT_PROXY, serverSide = ModInfo.SERVER_PROXY)
 	public static CommonProxy proxy;
 
-	public static final Logger logger = LogManager.getLogger(ModInfo.ID);
 
-	/** Helper class for registering custom tiles with Antique Atlas mod if loaded */
+	/** Helper class for registering custom tiles with Antique Atlas mod if loaded
 	public static AntiqueAtlasHelper atlasHelper = new AntiqueAtlasHelper();
-	/** Whether Antique Atlas mod is loaded */
+	/** Whether Antique Atlas mod is loaded
 	public static boolean isAtlasEnabled;
-	/** Whether Battlegear2 mod is loaded */
+	/** Whether Battlegear2 mod is loaded
 	public static boolean isBG2Enabled;
+	*/
 
+	/*
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Config.preInit(event);
@@ -150,4 +130,5 @@ public class ZSSMain
 			Config.postPropInit();
 		}
 	}
+	*/
 }
