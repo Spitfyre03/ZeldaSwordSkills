@@ -78,14 +78,12 @@ public class EntityCucco extends EntityChicken {
 				this.setRevengeTarget(entityPlayer);
 				this.attackingPlayer = entityPlayer;
 				this.recentlyHit = this.getRevengeTimer();
-				this.dataWatcher.updateObject(10, (byte)0);
 				if (moveSpeed.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
 					moveSpeed.removeModifier(ATTACK_SPEED_BOOST_MODIFIER);
 				}
 			}
 			// If the Cucco is actively targetting a player, check for speed and cycle swarm counter
 			else if (this.getAttackTarget() instanceof EntityPlayer) {
-				this.dataWatcher.updateObject(10, (byte)1);
 				if (!moveSpeed.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
 					moveSpeed.applyModifier(ATTACK_SPEED_BOOST_MODIFIER);
 				}
@@ -122,7 +120,7 @@ public class EntityCucco extends EntityChicken {
 				}
 			}
 		}
-		this.dataWatcher.updateObject(10, (byte)(this.isAngry() && this.getAttackTarget() != null ? 1 : 0));
+		this.dataWatcher.updateObject(10, (byte)(this.getAttackTarget() == null ? 0 : 1));
 	}
 
 	@Override
@@ -205,9 +203,7 @@ public class EntityCucco extends EntityChicken {
 	@Override
 	public EntityCucco createChild(EntityAgeable ageable) { return new EntityCucco(ageable.worldObj); }
 
-	public boolean isAngry(){
-		return this.revengeAttackTimer > 0 && this.attackTargetUUID != null;
-	}
+	public boolean isAngry(){ return this.revengeAttackTimer > 0; }
 
 	public void setAngryAt(EntityPlayer target, int timer) {
 		if (target == null) {
@@ -260,7 +256,7 @@ public class EntityCucco extends EntityChicken {
 			}
 			else {
 				EntityLivingBase target = this.taskOwner.getAITarget();
-				// If the target dies, revenge and forgiveness go hand-in-hand
+				// Revenge and forgiveness go hand-in-hand
 				if (target != null && !this.cuccoEntity.isTargetHarvy(target) && target.isDead) {
 					this.setEntityAttackTarget(this.taskOwner, null);
 					return false;
