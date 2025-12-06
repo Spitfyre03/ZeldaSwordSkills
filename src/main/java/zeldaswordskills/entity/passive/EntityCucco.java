@@ -24,4 +24,11 @@ public class EntityCucco extends EntityChicken {
 	protected String getDeathSound() {
 		return Sounds.CUCCO_DIE;
 	}
+
+	@Override
+	public boolean isChickenJockey() { return false; }
+
+	@Override
+	public void setChickenJockey(boolean jockey) {}
+
 }
