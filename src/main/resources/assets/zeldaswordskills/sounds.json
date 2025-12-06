@@ -21,6 +21,7 @@
     "armor_move": {"category": "hostile","sounds":["entity/armor_move1", "entity/armor_move2"]},
     "bomb_fuse": {"category": "neutral","sounds":["entity/bomb_fuse"]},
     "bomb_whistle": {"category": "ambient","sounds":["entity/bomb_whistle"]},
+    "cucco_living": {"category": "neutral","sounds":["entity/cucco1", "entity/cucco2"]},
     "chu_merge": {"category": "hostile","sounds":["entity/chu_merge"]},
     "fairy_blessing": {"category": "ambient","sounds":["entity/fairy_blessing"]},
     "fairy_laugh": {"category": "neutral","sounds":["entity/fairy_laugh"]},
