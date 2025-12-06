@@ -104,10 +104,59 @@ public class EntityCucco extends EntityChicken {
 		}
 	}
 
-	@Override
-	public boolean isChickenJockey() { return false; }
+	public static class EntityAICuccoHurtByTarget extends EntityAIHurtByTarget {
 
-	@Override
-	public void setChickenJockey(boolean jockey) {}
+		private final EntityCucco cuccoEntity;
+
+		public EntityAICuccoHurtByTarget(EntityCucco creature) {
+			super(creature, true);
+			this.cuccoEntity = creature;
+		}
+
+		@Override
+		public boolean shouldExecute() {
+			// if the mode is peaceful, do nothing
+			if (this.cuccoEntity.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL) {
+				return false;
+			}
+			// if the target is dead, do nothing
+			if (this.taskOwner.getAITarget() != null && this.taskOwner.getAITarget().isDead) {
+				return false;
+			}
+			return super.shouldExecute();
+		}
+
+		@Override
+		public boolean continueExecuting() {
+			// if the mode is peaceful, cancel AI but don't unset revenge target
+			if (this.cuccoEntity.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL) {
+				return false;
+			}
+			else {
+				EntityLivingBase target = this.taskOwner.getAITarget();
+				// If the target dies, revenge and forgiveness go hand-in-hand
+				if (target != null && !this.cuccoEntity.isTargetHarvy(target) && target.isDead) {
+					this.setEntityAttackTarget(this.taskOwner, null);
+					return false;
+				}
+				// If the player is in creative, disengage, but don't forget
+				else if (target instanceof EntityPlayer && ((EntityPlayer)target).capabilities.isCreativeMode) {
+					return false;
+				}
+			}
+			return super.continueExecuting();
+		}
+
+		@Override
+		protected void setEntityAttackTarget(EntityCreature victim, EntityLivingBase assailant) {
+			super.setEntityAttackTarget(victim, assailant);
+			if (victim instanceof EntityCucco && assailant instanceof EntityPlayer) {
+				EntityCucco cucco = (EntityCucco)victim;
+				cucco.setAngryAt((EntityPlayer)assailant);
+				// Necessary for helpers to be on the same tick. Redundant on self
+				cucco.revengeAttackTimer = this.cuccoEntity.revengeAttackTimer;
+			}
+		}
+	}
 
 }
