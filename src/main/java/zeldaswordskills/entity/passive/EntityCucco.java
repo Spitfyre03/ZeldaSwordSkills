@@ -18,7 +18,7 @@ import java.util.UUID;
 public class EntityCucco extends EntityChicken {
 
 	private static final UUID ATTACK_SPEED_BOOST_MODIFIER_UUID = UUID.fromString("FAA758B7-3ADE-4496-86A6-485FBDD71E46");
-	private static final AttributeModifier ATTACK_SPEED_BOOST_MODIFIER = (new AttributeModifier(ATTACK_SPEED_BOOST_MODIFIER_UUID, "Attacking speed boost", 0.5D, 0)).setSaved(false);
+	private static final AttributeModifier ATTACK_SPEED_BOOST_MODIFIER = (new AttributeModifier(ATTACK_SPEED_BOOST_MODIFIER_UUID, "Attacking speed boost", 0.1D, 0)).setSaved(false);
 	/** Represents how many Cuccos this entity has left to spawn. Decremented each time a swarm member is spawned */
 	private int swarmSpawnCount;
 	/** How many ticks left before another Cucco is spawned to the swarm */
@@ -48,6 +48,7 @@ public class EntityCucco extends EntityChicken {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth).setBaseValue(12.0D);
 		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(35.0D);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
 	}
@@ -78,7 +79,7 @@ public class EntityCucco extends EntityChicken {
 			// If the Cucco is actively targetting a player, check for speed and cycle swarm counter
 			else if (this.getAttackTarget() instanceof EntityPlayer) {
 				if (!moveSpeed.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
-					moveSpeed.removeModifier(ATTACK_SPEED_BOOST_MODIFIER);
+					moveSpeed.applyModifier(ATTACK_SPEED_BOOST_MODIFIER);
 				}
 				EntityPlayer target = (EntityPlayer)this.getAttackTarget();
 				if (this.swarmTimer > 0 && --this.swarmTimer == 0) {
@@ -246,7 +247,10 @@ public class EntityCucco extends EntityChicken {
 		@Override
 		public boolean continueExecuting() {
 			// if the mode is peaceful, cancel AI but don't unset revenge target
-			if (this.cuccoEntity.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL) {
+			if (!this.cuccoEntity.isAngry()) {
+				return false;
+			}
+			else if (this.cuccoEntity.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL) {
 				return false;
 			}
 			else {
