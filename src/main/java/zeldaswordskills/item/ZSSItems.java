@@ -281,8 +281,12 @@ public class ZSSItems
 	swordGolden,
 	swordMasterTrue,
 	swordDarknut,
+	swordOshus,
 	bladePhantom,
-	swordPhantom;
+	swordPhantom,
+	swordFierce,
+	swordRecruit,
+	swordLokomo;
 
 	/** Other Melee Weapons */
 	public static Item
@@ -333,7 +337,7 @@ public class ZSSItems
 	//================ SPAWN EGGS TAB ================//
 	public static Item eggSpawner; // egg item for all ZSS spawnable entities
 
-	/*// TODO items to be "class"ified and added
+	/* TODO add shields in 1.9. Add to Data Fixer also
 	public static Item
 	shieldOrdon,
 	shieldHero,
@@ -342,21 +346,16 @@ public class ZSSItems
 	shieldWood1, shieldWood2, shieldWood3,
 	shieldSteel1, shieldSteel2, shieldSteel3,
 	shieldSacred1, shieldSacred2, shieldSacred3,
+	 */
 
-	swordFierce, swordLokomo,
-	// swordFour,
-	swordGoddess1, swordGoddess2, swordGoddess3,
-	swordBasic,
-	swordOshus,
-	swordRecruit,
-	// swordPicori,
+	/*// TODO items to be "class"ified and added
 	// swordGreen,
 	// swordRed,
 	// swordBlue,
+	// swordFour,
+	// swordGoddess1, swordGoddess2, swordGoddess3, // same questline with spirit flames. Already in main mod
+	// swordPicori,
 	cuccoGlove,
-	fairyDust,
-	goldDust,
-	fierceFragment,
 
 	metal1, ///////////////////////
 	metal2, // For Phantom Blade //
@@ -364,9 +363,6 @@ public class ZSSItems
 	// Maybe be able to craft from regular sand. Blessed by fairies? Or a Life Force rare drop combined with regular sand?
 	hourSand, // I think we should add a special block used for loading sand into the HG. Leaves room for some awesome animating FX.
 	spiritEssence,
-	eightBitSwordWooden, // Handle changes colors to match current tunic. Hmmm... Maybe use masking like the spawn eggs do?
-	eightBitSwordWhite, eightBitSwordMagical,
-	eightBitShieldSmall, eightBitShieldMagical,
 	// spawnEggLandOctorok,// Needed?
 	// triforceShard, triforce,
 	lantern, // burns cobwebs. dynamic directional light?
@@ -612,7 +608,11 @@ public class ZSSItems
 		swordMasterTrue = new ItemZeldaSword(ToolMaterial.EMERALD, 8.0F).setMasterSword().setUnlocalizedName("sword_master_true").setMaxDamage(0);
 		swordDarknut = new ItemZeldaSword(ToolMaterial.IRON, 1.0F, true, 20, 0.5F).setUnlocalizedName("sword_darknut").setMaxDamage(768);
 		swordBroken = new ItemBrokenSword().setUnlocalizedName("sword_broken");
+		swordOshus = new ItemZeldaSword(ToolMaterial.IRON, -1.0F).setUnlocalizedName("sword_oshus").setMaxDamage(256);
 		swordPhantom = new ItemPhantomSword(ToolMaterial.EMERALD, 2.0F).setUnlocalizedName("sword_phantom");
+		swordFierce = new ItemZeldaSword(ToolMaterial.EMERALD, 6.5F, true).setMasterSword().setUnlocalizedName("sword_fierce").setMaxDamage(0);
+		swordRecruit = new ItemZeldaSword(ToolMaterial.IRON, -1.0F).setUnlocalizedName("sword_recruit").setMaxDamage(256);
+		swordLokomo = new ItemZeldaSword(ToolMaterial.EMERALD, 2.0F).setMasterSword().setUnlocalizedName("sword_lokomo").setMaxDamage(0);
 
 		// HAMMERS
 		hammer = new ItemHammer(BlockWeight.VERY_LIGHT, 8.0F, 50.0F).setUnlocalizedName("hammer");
