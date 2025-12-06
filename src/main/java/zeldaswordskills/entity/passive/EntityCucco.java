@@ -48,15 +48,15 @@ public class EntityCucco extends EntityChicken {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth).setBaseValue(12.0D);
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(35.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(12.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35.0D);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
 	}
 
 	@Override
 	protected void updateAITasks() {
 		super.updateAITasks();
-		IAttributeInstance moveSpeed = this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
+		IAttributeInstance moveSpeed = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 		// If we are currently angry, i.e. have a local target stored
 		if (this.isAngry()) {
 			// Run the anger cycle. If it is finished, clear targets and remove speed
@@ -246,10 +246,11 @@ public class EntityCucco extends EntityChicken {
 
 		@Override
 		public boolean continueExecuting() {
-			// if the mode is peaceful, cancel AI but don't unset revenge target
+			// If we aren't angry anymore, reset the task
 			if (!this.cuccoEntity.isAngry()) {
 				return false;
 			}
+			// if the mode is peaceful, cancel AI but don't unset revenge target
 			else if (this.cuccoEntity.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL) {
 				return false;
 			}
