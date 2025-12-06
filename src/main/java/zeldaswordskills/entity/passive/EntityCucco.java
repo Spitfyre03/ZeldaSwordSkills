@@ -1,9 +1,15 @@
 package zeldaswordskills.entity.passive;
 
-import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import zeldaswordskills.ref.Sounds;
 
@@ -11,6 +17,8 @@ import java.util.UUID;
 
 public class EntityCucco extends EntityChicken {
 
+	private static final UUID ATTACK_SPEED_BOOST_MODIFIER_UUID = UUID.fromString("FAA758B7-3ADE-4496-86A6-485FBDD71E46");
+	private static final AttributeModifier ATTACK_SPEED_BOOST_MODIFIER = (new AttributeModifier(ATTACK_SPEED_BOOST_MODIFIER_UUID, "Attacking speed boost", 0.5D, 0)).setSaved(false);
 	/** Represents how many Cuccos this entity has left to spawn. Decremented each time a swarm member is spawned */
 	private int swarmSpawnCount;
 	/** How many ticks left before another Cucco is spawned to the swarm */
@@ -23,6 +31,90 @@ public class EntityCucco extends EntityChicken {
 	public EntityCucco(World worldIn) {
 		super(worldIn);
 		this.setSize(1.0F, 0.4F);
+		this.tasks.taskEntries.clear();
+		this.tasks.addTask(0, new EntityAISwimming(this));
+		this.tasks.addTask(1, new EntityAILeapAtTarget(this, 0.4F));
+		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
+		this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
+		this.tasks.addTask(4, new EntityAITempt(this, 1.0D, Items.wheat_seeds, false));
+		this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
+		this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		this.tasks.addTask(8, new EntityAILookIdle(this));
+		this.targetTasks.addTask(1, new EntityAICuccoHurtByTarget(this));
+	}
+
+
+	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange).setBaseValue(35.0D);
+		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
+	}
+
+	@Override
+	protected void updateAITasks() {
+		super.updateAITasks();
+		IAttributeInstance moveSpeed = this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
+		// If we are currently angry, i.e. have a local target stored
+		if (this.isAngry()) {
+			// Run the anger cycle. If it is finished, clear targets and remove speed
+			if (--this.revengeAttackTimer == 0) {
+				this.setAngryAt(null);
+				if (moveSpeed.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
+					moveSpeed.removeModifier(ATTACK_SPEED_BOOST_MODIFIER);
+				}
+			}
+			// If the cycle is still running but we don't have a revenge target, update and let AI decide on attack target
+			else if (this.getAITarget() == null) {
+				EntityPlayer entityPlayer = this.worldObj.getPlayerEntityByUUID(this.attackTargetUUID);
+				this.setRevengeTarget(entityPlayer);
+				this.attackingPlayer = entityPlayer;
+				this.recentlyHit = this.getRevengeTimer();
+				if (moveSpeed.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
+					moveSpeed.removeModifier(ATTACK_SPEED_BOOST_MODIFIER);
+				}
+			}
+			// If the Cucco is actively targetting a player, check for speed and cycle swarm counter
+			else if (this.getAttackTarget() instanceof EntityPlayer) {
+				if (!moveSpeed.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
+					moveSpeed.removeModifier(ATTACK_SPEED_BOOST_MODIFIER);
+				}
+				EntityPlayer target = (EntityPlayer)this.getAttackTarget();
+				if (this.swarmTimer > 0 && --this.swarmTimer == 0) {
+					if (this.isTargetHarvy(target)) {
+						int cuccos = this.rand.nextInt(4) + 2;// Between 2 and 5 (3-inclusive + 2)
+						for (int i = 0; i < cuccos; i++) {
+							double posX = this.posX + ((this.rand.nextDouble() - this.rand.nextDouble()) * 6.0D) + 0.5D;
+							double posY = this.posY + this.rand.nextInt(3);
+							double posZ = this.posZ + ((this.rand.nextDouble() - this.rand.nextDouble()) * 6.0D) + 0.5D;
+							EntityCucco cucco = new EntityCucco(this.worldObj);
+							cucco.setPosition(posX, posY, posZ);
+							if (this.worldObj.spawnEntityInWorld(cucco)) {
+								cucco.setAngryAt(target);
+								cucco.revengeAttackTimer = this.revengeAttackTimer;
+							}
+						}
+						this.swarmTimer = this.rand.nextInt(16);
+					}
+					else if (this.swarmSpawnCount > 0) {
+						double posX = target.posX + ((this.rand.nextDouble() - this.rand.nextDouble()) * 5.0D) + 0.5D;
+						double posY = target.posY + this.rand.nextInt(3);
+						double posZ = target.posZ + ((this.rand.nextDouble() - this.rand.nextDouble()) * 5.0D) + 0.5D;
+						EntityCucco cucco = new EntityCucco(this.worldObj);
+						cucco.setPosition(posX, posY, posZ);
+						if (this.worldObj.spawnEntityInWorld(cucco)) {
+							--this.swarmSpawnCount;
+							cucco.setAngryAt(target);
+							cucco.revengeAttackTimer = this.revengeAttackTimer;
+						}
+						if (this.swarmSpawnCount != 0) {
+							this.swarmTimer = this.rand.nextInt(20);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -55,6 +147,31 @@ public class EntityCucco extends EntityChicken {
 		else {
 			tagCompound.setString("SwarmTarget", "");
 		}
+	}
+
+	@Override
+	public boolean attackEntityAsMob(Entity entityIn) {
+		return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue());
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		// Dunno. Stole it from EntityPigZombie
+		if (this.isEntityInvulnerable(source)) {
+			return false;
+		}
+		// If this Cucco isn't angry and the player isn't in invulnerable
+		if (!this.isAngry() && source.getEntity() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)source.getEntity();
+			if (!player.capabilities.isCreativeMode && this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL) {
+				this.setAngryAt((EntityPlayer)source.getEntity());
+				this.swarmTimer = this.rand.nextInt(20);
+				if (!this.isTargetHarvy(player)) {
+					this.swarmSpawnCount = this.rand.nextInt(4) + 5;
+				}
+			}
+		}
+		return super.attackEntityFrom(source, amount);
 	}
 
 	private boolean isTargetHarvy(EntityLivingBase target) {
